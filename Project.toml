@@ -1,0 +1,19 @@
+name = "AlgebraicDecisionDiagrams"
+uuid = "65fc5111-ef4e-4dc3-b99d-0618f060826c"
+version = "0.1.0"
+authors = ["Huai-Ming Yu <hmyuus@gmail.com>"]
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+
+[compat]
+BenchmarkTools = "1.6.3"
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+
+[targets]
+test = ["Test"]
+docs = ["Documenter"]
