@@ -403,6 +403,6 @@ See `benchmark/cudd_comparison/RESULTS.md` for comprehensive benchmarks.
 
 ## See Also
 
-- [Comparison with CUDD](@ref): Detailed benchmark comparison
+- [Comparison with CUDD](comparison.md): Detailed benchmark comparison
 - [API Reference](@ref): Complete API documentation
 - [Internals](@ref): Implementation details

@@ -489,7 +489,7 @@ paths = count_paths(mgr, f)
 
 ## See Also
 
-- [BDD Guide](@ref): Binary Decision Diagrams
-- [ADD Guide](@ref): Algebraic Decision Diagrams
-- [ZDD Guide](@ref): Zero-suppressed Decision Diagrams
+- [BDD Guide](bdds.md): Binary Decision Diagrams
+- [ADD Guide](adds.md): Algebraic Decision Diagrams
+- [ZDD Guide](zdds.md): Zero-suppressed Decision Diagrams
 - [API Reference](@ref): Complete API documentation

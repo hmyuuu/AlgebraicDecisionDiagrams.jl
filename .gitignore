@@ -11,9 +11,7 @@ docs/site/
 
 # IDE
 .vscode/
-.idea/
-*.swp
-*.swo
+.claude/
 *~
 
 # OS

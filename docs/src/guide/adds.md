@@ -443,6 +443,6 @@ sum = add_plus(mgr, c1, c2)
 
 ## See Also
 
-- [BDD Guide](@ref): Binary Decision Diagrams
-- [ZDD Guide](@ref): Zero-suppressed Decision Diagrams
+- [BDD Guide](bdds.md): Binary Decision Diagrams
+- [ZDD Guide](zdds.md): Zero-suppressed Decision Diagrams
 - [API Reference](@ref): Complete API documentation

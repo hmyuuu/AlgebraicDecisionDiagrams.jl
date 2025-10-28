@@ -514,4 +514,4 @@ Thread-safe operations:
 
 - [API Reference](@ref): Complete API documentation
 - [Performance](@ref): Performance characteristics
-- [Comparison with CUDD](@ref): Implementation comparison
+- [Comparison with CUDD](comparison.md): Implementation comparison

@@ -511,6 +511,6 @@ Converting between sets and ZDDs has overhead:
 
 ## See Also
 
-- [BDD Guide](@ref): Binary Decision Diagrams
-- [ADD Guide](@ref): Algebraic Decision Diagrams
+- [BDD Guide](bdds.md): Binary Decision Diagrams
+- [ADD Guide](adds.md): Algebraic Decision Diagrams
 - [API Reference](@ref): Complete API documentation

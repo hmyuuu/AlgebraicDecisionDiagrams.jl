@@ -248,8 +248,8 @@ println("Cache size: ", length(mgr.cache.entries))
 
 ## Next Steps
 
-- [BDD Guide](@ref): Detailed guide to Binary Decision Diagrams
-- [ADD Guide](@ref): Detailed guide to Algebraic Decision Diagrams
-- [ZDD Guide](@ref): Detailed guide to Zero-suppressed Decision Diagrams
+- [BDD Guide](guide/bdds.md): Detailed guide to Binary Decision Diagrams
+- [ADD Guide](guide/adds.md): Detailed guide to Algebraic Decision Diagrams
+- [ZDD Guide](guide/zdds.md): Detailed guide to Zero-suppressed Decision Diagrams
 - [Performance](@ref): Performance optimization and benchmarking
 - [API Reference](@ref): Complete API documentation

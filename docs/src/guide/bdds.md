@@ -433,6 +433,6 @@ println("Number of solutions: ", num_solutions)
 
 ## See Also
 
-- [ADD Guide](@ref): Algebraic Decision Diagrams
-- [ZDD Guide](@ref): Zero-suppressed Decision Diagrams
+- [ADD Guide](adds.md): Algebraic Decision Diagrams
+- [ZDD Guide](zdds.md): Zero-suppressed Decision Diagrams
 - [API Reference](@ref): Complete API documentation

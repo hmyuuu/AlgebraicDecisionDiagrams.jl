@@ -88,7 +88,7 @@ Pkg.develop(url="https://github.com/yourusername/AlgebraicDecisionDiagrams.jl")
 | **Variable Reordering** | Not yet | Yes | CUDD |
 | **Multi-threading** | Not yet | Yes | CUDD |
 
-See [Comparison with CUDD](@ref) for detailed benchmarks.
+See [Comparison with CUDD](comparison.md) for detailed benchmarks.
 
 ## When to Use
 
@@ -108,9 +108,13 @@ See [Comparison with CUDD](@ref) for detailed benchmarks.
 ## Documentation Structure
 
 - [Getting Started](@ref): Installation and basic usage
-- [User Guide](@ref): Detailed guides for BDDs, ADDs, and ZDDs
+- **User Guide**: Detailed guides for BDDs, ADDs, and ZDDs
+  - [BDD Guide](guide/bdds.md)
+  - [ADD Guide](guide/adds.md)
+  - [ZDD Guide](guide/zdds.md)
+  - [Utilities](guide/utilities.md)
 - [Performance](@ref): Performance characteristics and optimization
-- [Comparison with CUDD](@ref): Detailed benchmarks and comparison
+- [Comparison with CUDD](comparison.md): Detailed benchmarks and comparison
 - [API Reference](@ref): Complete API documentation
 - [Internals](@ref): Implementation details
 
