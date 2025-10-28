@@ -8,7 +8,7 @@ makedocs(
     sitename = "AlgebraicDecisionDiagrams.jl",
     format = Documenter.HTML(
         prettyurls = get(ENV, "CI", nothing) == "true",
-        canonical = "https://yourusername.github.io/AlgebraicDecisionDiagrams.jl",
+        canonical = "https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl",
         assets = String[],
     ),
     modules = [AlgebraicDecisionDiagrams],
@@ -30,6 +30,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/yourusername/AlgebraicDecisionDiagrams.jl.git",
+    repo = "github.com/hmyuuu/AlgebraicDecisionDiagrams.jl.git",
     devbranch = "main",
 )
