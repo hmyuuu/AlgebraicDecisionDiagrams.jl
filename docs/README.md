@@ -45,14 +45,43 @@ start build/index.html  # Windows
 
 ## Deploying Documentation
 
-To deploy to GitHub Pages:
+### Automatic Deployment
 
-```bash
-julia --project=. -e 'using Pkg; Pkg.add("DocumenterTools")'
-julia --project=. -e 'using DocumenterTools; DocumenterTools.genkeys()'
-```
+Documentation is automatically built and deployed to GitHub Pages when:
+- Code is pushed to the `main` branch
+- A new tag is created
+- The workflow is manually triggered from the Actions tab
 
-Then add the generated key to your GitHub repository settings and push to trigger deployment.
+### Setting up GitHub Pages
+
+To enable the published documentation website:
+
+1. Go to your repository on GitHub: https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl
+2. Click on **Settings** tab
+3. Navigate to **Pages** in the left sidebar (under "Code and automation")
+4. Under **Source**, select **Deploy from a branch**
+5. Select the **gh-pages** branch from the dropdown
+6. Select **/ (root)** as the folder
+7. Click **Save**
+
+After a few minutes, your documentation will be available at:
+**https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/**
+
+### How Deployment Works
+
+The `.github/workflows/Documentation.yml` workflow:
+1. Builds documentation using Documenter.jl
+2. Pushes the generated HTML to the `gh-pages` branch  
+3. Ensures a `.nojekyll` file exists to prevent Jekyll processing
+4. GitHub Pages then serves the content from the `gh-pages` branch
+
+### Troubleshooting
+
+If documentation isn't showing up:
+- Verify GitHub Pages is enabled in Settings → Pages
+- Check that source is set to `gh-pages` branch
+- Wait 2-3 minutes after workflow completes for Pages to update
+- Check the Actions tab for any workflow errors
 
 ## Contributing
 
