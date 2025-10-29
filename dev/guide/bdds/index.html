@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Binary Decision Diagrams (BDDs) · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Binary Decision Diagrams (BDDs) · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Binary Decision Diagrams (BDDs) · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Binary Decision Diagrams (BDDs) · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/bdds/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/bdds/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/bdds/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting_started/">Getting Started</a></li><li><span class="tocitem">User Guide</span><ul><li class="is-active"><a class="tocitem" href>Binary Decision Diagrams (BDDs)</a><ul class="internal"><li><a class="tocitem" href="#What-are-BDDs?"><span>What are BDDs?</span></a></li><li><a class="tocitem" href="#Creating-BDDs"><span>Creating BDDs</span></a></li><li><a class="tocitem" href="#Boolean-Operations"><span>Boolean Operations</span></a></li><li><a class="tocitem" href="#Quantification"><span>Quantification</span></a></li><li><a class="tocitem" href="#Restriction-(Cofactoring)"><span>Restriction (Cofactoring)</span></a></li><li><a class="tocitem" href="#Evaluation"><span>Evaluation</span></a></li><li><a class="tocitem" href="#Counting-and-Analysis"><span>Counting and Analysis</span></a></li><li><a class="tocitem" href="#Complement-Edges"><span>Complement Edges</span></a></li><li><a class="tocitem" href="#Performance-Tips"><span>Performance Tips</span></a></li><li><a class="tocitem" href="#Common-Patterns"><span>Common Patterns</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li><li><a class="tocitem" href="../adds/">Algebraic Decision Diagrams (ADDs)</a></li><li><a class="tocitem" href="../zdds/">Zero-suppressed Decision Diagrams (ZDDs)</a></li><li><a class="tocitem" href="../utilities/">Utilities</a></li></ul></li><li><a class="tocitem" href="../../performance/">Performance</a></li><li><a class="tocitem" href="../../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../internals/">Internals</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">User Guide</a></li><li class="is-active"><a href>Binary Decision Diagrams (BDDs)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Binary Decision Diagrams (BDDs)</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/guide/bdds.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Binary-Decision-Diagrams-(BDDs)"><a class="docs-heading-anchor" href="#Binary-Decision-Diagrams-(BDDs)">Binary Decision Diagrams (BDDs)</a><a id="Binary-Decision-Diagrams-(BDDs)-1"></a><a class="docs-heading-anchor-permalink" href="#Binary-Decision-Diagrams-(BDDs)" title="Permalink"></a></h1><p>Binary Decision Diagrams (BDDs) are canonical representations of Boolean functions. They are widely used in formal verification, logic synthesis, and combinatorial optimization.</p><h2 id="What-are-BDDs?"><a class="docs-heading-anchor" href="#What-are-BDDs?">What are BDDs?</a><a id="What-are-BDDs?-1"></a><a class="docs-heading-anchor-permalink" href="#What-are-BDDs?" title="Permalink"></a></h2><p>A BDD is a directed acyclic graph (DAG) where:</p><ul><li>Each non-terminal node represents a Boolean variable</li><li>Each node has two children: <code>then</code> (high) and <code>else</code> (low)</li><li>Terminal nodes represent Boolean values (true/false)</li><li>The graph is reduced and ordered for canonical representation</li></ul><h2 id="Creating-BDDs"><a class="docs-heading-anchor" href="#Creating-BDDs">Creating BDDs</a><a id="Creating-BDDs-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-BDDs" title="Permalink"></a></h2><h3 id="Variables"><a class="docs-heading-anchor" href="#Variables">Variables</a><a id="Variables-1"></a><a class="docs-heading-anchor-permalink" href="#Variables" title="Permalink"></a></h3><p>Create Boolean variables using <code>ith_var</code>:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(5)
+
+# Create variables x1, x2, x3, x4, x5
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+x4 = ith_var(mgr, 4)
+x5 = ith_var(mgr, 5)</code></pre><h3 id="Constants"><a class="docs-heading-anchor" href="#Constants">Constants</a><a id="Constants-1"></a><a class="docs-heading-anchor-permalink" href="#Constants" title="Permalink"></a></h3><p>Access Boolean constants directly from the manager:</p><pre><code class="language-julia hljs">true_node = mgr.one   # Constant true
+false_node = mgr.zero # Constant false</code></pre><h2 id="Boolean-Operations"><a class="docs-heading-anchor" href="#Boolean-Operations">Boolean Operations</a><a id="Boolean-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Boolean-Operations" title="Permalink"></a></h2><h3 id="Basic-Operations"><a class="docs-heading-anchor" href="#Basic-Operations">Basic Operations</a><a id="Basic-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Operations" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# AND: x1 ∧ x2
+f_and = bdd_and(mgr, x1, x2)
+
+# OR: x1 ∨ x2
+f_or = bdd_or(mgr, x1, x2)
+
+# XOR: x1 ⊕ x2
+f_xor = bdd_xor(mgr, x1, x2)
+
+# NOT: ¬x1
+f_not = bdd_not(mgr, x1)
+
+# NAND: ¬(x1 ∧ x2)
+f_nand = bdd_not(mgr, bdd_and(mgr, x1, x2))
+
+# NOR: ¬(x1 ∨ x2)
+f_nor = bdd_not(mgr, bdd_or(mgr, x1, x2))
+
+# XNOR: ¬(x1 ⊕ x2) (equivalence)
+f_xnor = bdd_not(mgr, bdd_xor(mgr, x1, x2))
+
+# IMPLIES: x1 → x2 = ¬x1 ∨ x2
+f_implies = bdd_or(mgr, bdd_not(mgr, x1), x2)</code></pre><h3 id="If-Then-Else-(ITE)"><a class="docs-heading-anchor" href="#If-Then-Else-(ITE)">If-Then-Else (ITE)</a><a id="If-Then-Else-(ITE)-1"></a><a class="docs-heading-anchor-permalink" href="#If-Then-Else-(ITE)" title="Permalink"></a></h3><p>The ITE operation is fundamental: <code>ITE(f, g, h) = (f ∧ g) ∨ (¬f ∧ h)</code></p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# If x1 then x2 else x3
+result = bdd_ite(mgr, x1, x2, x3)
+
+# Equivalent to: (x1 ∧ x2) ∨ (¬x1 ∧ x3)
+equivalent = bdd_or(mgr,
+    bdd_and(mgr, x1, x2),
+    bdd_and(mgr, bdd_not(mgr, x1), x3))
+
+# They are the same
+@assert result == equivalent</code></pre><h3 id="Complex-Formulas"><a class="docs-heading-anchor" href="#Complex-Formulas">Complex Formulas</a><a id="Complex-Formulas-1"></a><a class="docs-heading-anchor-permalink" href="#Complex-Formulas" title="Permalink"></a></h3><p>Build complex Boolean formulas by composing operations:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+x1, x2, x3, x4 = [ith_var(mgr, i) for i in 1:4]
+
+# Majority function: at least 2 of 3 variables are true
+# maj(x1, x2, x3) = (x1 ∧ x2) ∨ (x1 ∧ x3) ∨ (x2 ∧ x3)
+majority = bdd_or(mgr,
+    bdd_or(mgr,
+        bdd_and(mgr, x1, x2),
+        bdd_and(mgr, x1, x3)),
+    bdd_and(mgr, x2, x3))
+
+# Full adder carry: c_out = (a ∧ b) ∨ (a ∧ c_in) ∨ (b ∧ c_in)
+carry = bdd_or(mgr,
+    bdd_or(mgr,
+        bdd_and(mgr, x1, x2),
+        bdd_and(mgr, x1, x3)),
+    bdd_and(mgr, x2, x3))
+
+# Full adder sum: s = a ⊕ b ⊕ c_in
+sum = bdd_xor(mgr, bdd_xor(mgr, x1, x2), x3)
+
+# Parity: odd number of true variables
+parity = bdd_xor(mgr, bdd_xor(mgr, bdd_xor(mgr, x1, x2), x3), x4)</code></pre><h2 id="Quantification"><a class="docs-heading-anchor" href="#Quantification">Quantification</a><a id="Quantification-1"></a><a class="docs-heading-anchor-permalink" href="#Quantification" title="Permalink"></a></h2><h3 id="Existential-Quantification"><a class="docs-heading-anchor" href="#Existential-Quantification">Existential Quantification</a><a id="Existential-Quantification-1"></a><a class="docs-heading-anchor-permalink" href="#Existential-Quantification" title="Permalink"></a></h3><p><code>∃x. f(x, y)</code> returns true if f is true for at least one value of x:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# f = x1 ∧ x2 ∧ x3
+f = bdd_and(mgr, bdd_and(mgr, x1, x2), x3)
+
+# ∃x2. f = x1 ∧ x3 (true if x1 and x3 are true, regardless of x2)
+exists_x2 = bdd_exists(mgr, f, 2)
+
+# Verify: should be equivalent to x1 ∧ x3
+expected = bdd_and(mgr, x1, x3)
+@assert exists_x2 == expected</code></pre><h3 id="Universal-Quantification"><a class="docs-heading-anchor" href="#Universal-Quantification">Universal Quantification</a><a id="Universal-Quantification-1"></a><a class="docs-heading-anchor-permalink" href="#Universal-Quantification" title="Permalink"></a></h3><p><code>∀x. f(x, y)</code> returns true if f is true for all values of x:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# f = x1 ∨ x2
+f = bdd_or(mgr, x1, x2)
+
+# ∀x2. f = x1 (true only if x1 is true, since x2 could be false)
+forall_x2 = bdd_forall(mgr, f, 2)
+
+# Verify: should be equivalent to x1
+@assert forall_x2 == x1</code></pre><h3 id="Multiple-Variables"><a class="docs-heading-anchor" href="#Multiple-Variables">Multiple Variables</a><a id="Multiple-Variables-1"></a><a class="docs-heading-anchor-permalink" href="#Multiple-Variables" title="Permalink"></a></h3><p>Quantify over multiple variables:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+x1, x2, x3, x4 = [ith_var(mgr, i) for i in 1:4]
+
+# f = (x1 ∧ x2) ∨ (x3 ∧ x4)
+f = bdd_or(mgr,
+    bdd_and(mgr, x1, x2),
+    bdd_and(mgr, x3, x4))
+
+# ∃x2, x4. f = x1 ∨ x3
+result = bdd_exists(mgr, bdd_exists(mgr, f, 2), 4)</code></pre><h2 id="Restriction-(Cofactoring)"><a class="docs-heading-anchor" href="#Restriction-(Cofactoring)">Restriction (Cofactoring)</a><a id="Restriction-(Cofactoring)-1"></a><a class="docs-heading-anchor-permalink" href="#Restriction-(Cofactoring)" title="Permalink"></a></h2><p>Restriction fixes a variable to a specific value:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# f = (x1 ∧ x2) ∨ x3
+f = bdd_or(mgr, bdd_and(mgr, x1, x2), x3)
+
+# Restrict x2 = true: f|x2=1 = x1 ∨ x3
+f_x2_true = bdd_restrict(mgr, f, 2, true)
+
+# Restrict x2 = false: f|x2=0 = x3
+f_x2_false = bdd_restrict(mgr, f, 2, false)
+
+# Verify Shannon expansion: f = (x2 ∧ f|x2=1) ∨ (¬x2 ∧ f|x2=0)
+shannon = bdd_or(mgr,
+    bdd_and(mgr, x2, f_x2_true),
+    bdd_and(mgr, bdd_not(mgr, x2), f_x2_false))
+@assert shannon == f</code></pre><h2 id="Evaluation"><a class="docs-heading-anchor" href="#Evaluation">Evaluation</a><a id="Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Evaluation" title="Permalink"></a></h2><p>Evaluate a BDD with a specific variable assignment:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# f = (x1 ∧ x2) ∨ x3
+f = bdd_or(mgr, bdd_and(mgr, x1, x2), x3)
+
+# Evaluate with x1=true, x2=true, x3=false
+assignment = Dict(1 =&gt; true, 2 =&gt; true, 3 =&gt; false)
+result = bdd_eval(mgr, f, assignment)  # true
+
+# Evaluate with x1=true, x2=false, x3=false
+assignment = Dict(1 =&gt; true, 2 =&gt; false, 3 =&gt; false)
+result = bdd_eval(mgr, f, assignment)  # false
+
+# Evaluate with x1=false, x2=false, x3=true
+assignment = Dict(1 =&gt; false, 2 =&gt; false, 3 =&gt; true)
+result = bdd_eval(mgr, f, assignment)  # true</code></pre><h2 id="Counting-and-Analysis"><a class="docs-heading-anchor" href="#Counting-and-Analysis">Counting and Analysis</a><a id="Counting-and-Analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Counting-and-Analysis" title="Permalink"></a></h2><h3 id="Count-Nodes"><a class="docs-heading-anchor" href="#Count-Nodes">Count Nodes</a><a id="Count-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Nodes" title="Permalink"></a></h3><p>Count the number of nodes in the BDD:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+
+# Simple AND: 2 nodes (x1 and x2)
+f = bdd_and(mgr, x1, x2)
+println(&quot;Nodes: &quot;, count_nodes(mgr, f))  # 2</code></pre><h3 id="Count-Paths"><a class="docs-heading-anchor" href="#Count-Paths">Count Paths</a><a id="Count-Paths-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Paths" title="Permalink"></a></h3><p>Count the number of paths from root to true terminal:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+
+# x1 ∧ x2: one path (both true)
+f = bdd_and(mgr, x1, x2)
+println(&quot;Paths: &quot;, count_paths(mgr, f))  # 1
+
+# x1 ∨ x2: three paths (x1 true, x2 true, or both)
+g = bdd_or(mgr, x1, x2)
+println(&quot;Paths: &quot;, count_paths(mgr, g))  # 3</code></pre><h3 id="Count-Minterms"><a class="docs-heading-anchor" href="#Count-Minterms">Count Minterms</a><a id="Count-Minterms-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Minterms" title="Permalink"></a></h3><p>Count the number of satisfying assignments:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# x1 ∧ x2: 2 minterms out of 8 (x3 can be 0 or 1)
+f = bdd_and(mgr, x1, x2)
+println(&quot;Minterms: &quot;, count_minterms(mgr, f, 3))  # 2.0
+
+# x1 ∨ x2: 6 minterms out of 8
+g = bdd_or(mgr, x1, x2)
+println(&quot;Minterms: &quot;, count_minterms(mgr, g, 3))  # 6.0
+
+# Probability (assuming uniform distribution)
+prob = count_minterms(mgr, g, 3) / 2^3  # 0.75</code></pre><h2 id="Complement-Edges"><a class="docs-heading-anchor" href="#Complement-Edges">Complement Edges</a><a id="Complement-Edges-1"></a><a class="docs-heading-anchor-permalink" href="#Complement-Edges" title="Permalink"></a></h2><p>BDDs in this implementation use complement edges for efficiency:</p><ul><li>The least significant bit (LSB) of a node pointer indicates negation</li><li>NOT operation is O(1) - just flip the LSB</li><li>Reduces node count by approximately 2x</li></ul><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = ith_var(mgr, 1)
+
+# NOT is extremely fast (just bit flip)
+not_x1 = bdd_not(mgr, x1)
+
+# Double negation returns original
+@assert bdd_not(mgr, not_x1) == x1
+
+# Complement edges are transparent to users
+# All operations handle them automatically</code></pre><h2 id="Performance-Tips"><a class="docs-heading-anchor" href="#Performance-Tips">Performance Tips</a><a id="Performance-Tips-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Tips" title="Permalink"></a></h2><h3 id="1.-Variable-Ordering"><a class="docs-heading-anchor" href="#1.-Variable-Ordering">1. Variable Ordering</a><a id="1.-Variable-Ordering-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Variable-Ordering" title="Permalink"></a></h3><p>Variable ordering significantly affects BDD size:</p><pre><code class="language-julia hljs"># Good: Related variables close together
+# f = (x1 ∧ x2) ∨ (x3 ∧ x4)
+# Order: x1, x2, x3, x4 → small BDD
+
+# Bad: Interleaved variables
+# Order: x1, x3, x2, x4 → larger BDD
+
+# Note: Dynamic reordering not yet implemented</code></pre><h3 id="2.-Operation-Caching"><a class="docs-heading-anchor" href="#2.-Operation-Caching">2. Operation Caching</a><a id="2.-Operation-Caching-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Operation-Caching" title="Permalink"></a></h3><p>Operations are automatically cached:</p><pre><code class="language-julia hljs">mgr = DDManager(10)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+
+# First call: computes and caches
+result1 = bdd_and(mgr, x1, x2)  # ~5 ns
+
+# Second call: cache hit
+result2 = bdd_and(mgr, x1, x2)  # ~5 ns (from cache)
+
+@assert result1 == result2</code></pre><h3 id="3.-Build-Bottom-Up"><a class="docs-heading-anchor" href="#3.-Build-Bottom-Up">3. Build Bottom-Up</a><a id="3.-Build-Bottom-Up-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Build-Bottom-Up" title="Permalink"></a></h3><p>Build BDDs bottom-up for better performance:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+vars = [ith_var(mgr, i) for i in 1:4]
+
+# Good: Build incrementally
+result = vars[1]
+for i in 2:4
+    result = bdd_and(mgr, result, vars[i])
+end
+
+# Also good: Use reduce
+result = reduce((acc, v) -&gt; bdd_and(mgr, acc, v), vars)</code></pre><h2 id="Common-Patterns"><a class="docs-heading-anchor" href="#Common-Patterns">Common Patterns</a><a id="Common-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Patterns" title="Permalink"></a></h2><h3 id="Encoding-Constraints"><a class="docs-heading-anchor" href="#Encoding-Constraints">Encoding Constraints</a><a id="Encoding-Constraints-1"></a><a class="docs-heading-anchor-permalink" href="#Encoding-Constraints" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(4)
+x1, x2, x3, x4 = [ith_var(mgr, i) for i in 1:4]
+
+# At least one variable is true
+at_least_one = bdd_or(mgr, bdd_or(mgr, bdd_or(mgr, x1, x2), x3), x4)
+
+# Exactly one variable is true
+exactly_one = bdd_and(mgr,
+    at_least_one,
+    bdd_and(mgr,
+        bdd_not(mgr, bdd_and(mgr, x1, x2)),
+        bdd_and(mgr,
+            bdd_not(mgr, bdd_and(mgr, x1, x3)),
+            bdd_and(mgr,
+                bdd_not(mgr, bdd_and(mgr, x1, x4)),
+                bdd_and(mgr,
+                    bdd_not(mgr, bdd_and(mgr, x2, x3)),
+                    bdd_and(mgr,
+                        bdd_not(mgr, bdd_and(mgr, x2, x4)),
+                        bdd_not(mgr, bdd_and(mgr, x3, x4))))))))
+
+# At most two variables are true
+at_most_two = bdd_not(mgr,
+    bdd_or(mgr,
+        bdd_and(mgr, bdd_and(mgr, x1, x2), x3),
+        bdd_or(mgr,
+            bdd_and(mgr, bdd_and(mgr, x1, x2), x4),
+            bdd_or(mgr,
+                bdd_and(mgr, bdd_and(mgr, x1, x3), x4),
+                bdd_and(mgr, bdd_and(mgr, x2, x3), x4)))))</code></pre><h3 id="SAT-Solving"><a class="docs-heading-anchor" href="#SAT-Solving">SAT Solving</a><a id="SAT-Solving-1"></a><a class="docs-heading-anchor-permalink" href="#SAT-Solving" title="Permalink"></a></h3><p>Check if a formula is satisfiable:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+x3 = ith_var(mgr, 3)
+
+# Formula: (x1 ∨ x2) ∧ (¬x1 ∨ x3) ∧ (¬x2 ∨ ¬x3)
+clause1 = bdd_or(mgr, x1, x2)
+clause2 = bdd_or(mgr, bdd_not(mgr, x1), x3)
+clause3 = bdd_or(mgr, bdd_not(mgr, x2), bdd_not(mgr, x3))
+
+formula = bdd_and(mgr, bdd_and(mgr, clause1, clause2), clause3)
+
+# Check satisfiability
+is_sat = formula != mgr.zero
+println(&quot;Satisfiable: &quot;, is_sat)
+
+# Count solutions
+num_solutions = count_minterms(mgr, formula, 3)
+println(&quot;Number of solutions: &quot;, num_solutions)</code></pre><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../adds/">ADD Guide</a>: Algebraic Decision Diagrams</li><li><a href="../zdds/">ZDD Guide</a>: Zero-suppressed Decision Diagrams</li><li><a href="../../api/#API-Reference">API Reference</a>: Complete API documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../getting_started/">« Getting Started</a><a class="docs-footer-nextpage" href="../adds/">Algebraic Decision Diagrams (ADDs) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

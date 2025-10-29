@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Utilities · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Utilities · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Utilities · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Utilities · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/utilities/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/utilities/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/utilities/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting_started/">Getting Started</a></li><li><span class="tocitem">User Guide</span><ul><li><a class="tocitem" href="../bdds/">Binary Decision Diagrams (BDDs)</a></li><li><a class="tocitem" href="../adds/">Algebraic Decision Diagrams (ADDs)</a></li><li><a class="tocitem" href="../zdds/">Zero-suppressed Decision Diagrams (ZDDs)</a></li><li class="is-active"><a class="tocitem" href>Utilities</a><ul class="internal"><li><a class="tocitem" href="#Counting-Functions"><span>Counting Functions</span></a></li><li><a class="tocitem" href="#Manager-Information"><span>Manager Information</span></a></li><li><a class="tocitem" href="#Debugging-and-Inspection"><span>Debugging and Inspection</span></a></li><li><a class="tocitem" href="#Conversion-Functions"><span>Conversion Functions</span></a></li><li><a class="tocitem" href="#Performance-Monitoring"><span>Performance Monitoring</span></a></li><li><a class="tocitem" href="#Helper-Functions"><span>Helper Functions</span></a></li><li><a class="tocitem" href="#Validation-and-Testing"><span>Validation and Testing</span></a></li><li><a class="tocitem" href="#Best-Practices"><span>Best Practices</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../performance/">Performance</a></li><li><a class="tocitem" href="../../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../internals/">Internals</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">User Guide</a></li><li class="is-active"><a href>Utilities</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Utilities</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/guide/utilities.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Utilities"><a class="docs-heading-anchor" href="#Utilities">Utilities</a><a id="Utilities-1"></a><a class="docs-heading-anchor-permalink" href="#Utilities" title="Permalink"></a></h1><p>This guide covers utility functions for analyzing, debugging, and managing decision diagrams.</p><h2 id="Counting-Functions"><a class="docs-heading-anchor" href="#Counting-Functions">Counting Functions</a><a id="Counting-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Counting-Functions" title="Permalink"></a></h2><h3 id="Count-Nodes"><a class="docs-heading-anchor" href="#Count-Nodes">Count Nodes</a><a id="Count-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Nodes" title="Permalink"></a></h3><p>Count the number of nodes in a decision diagram:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(5)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# Simple variable: 1 node
+count = count_nodes(mgr, x1)
+println(&quot;Nodes in x1: &quot;, count)  # 1
+
+# AND of two variables: 2 nodes
+f = bdd_and(mgr, x1, x2)
+count = count_nodes(mgr, f)
+println(&quot;Nodes in x1 ∧ x2: &quot;, count)  # 2
+
+# More complex formula
+g = bdd_or(mgr, bdd_and(mgr, x1, x2), x3)
+count = count_nodes(mgr, g)
+println(&quot;Nodes in (x1 ∧ x2) ∨ x3: &quot;, count)  # 3</code></pre><h3 id="Count-Paths"><a class="docs-heading-anchor" href="#Count-Paths">Count Paths</a><a id="Count-Paths-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Paths" title="Permalink"></a></h3><p>Count the number of paths from root to true terminal:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# x1 ∧ x2: one path (both must be true)
+f = bdd_and(mgr, x1, x2)
+paths = count_paths(mgr, f)
+println(&quot;Paths in x1 ∧ x2: &quot;, paths)  # 1
+
+# x1 ∨ x2: three paths (x1 true, x2 true, or both)
+g = bdd_or(mgr, x1, x2)
+paths = count_paths(mgr, g)
+println(&quot;Paths in x1 ∨ x2: &quot;, paths)  # 3
+
+# x1 ⊕ x2: two paths (exactly one true)
+h = bdd_xor(mgr, x1, x2)
+paths = count_paths(mgr, h)
+println(&quot;Paths in x1 ⊕ x2: &quot;, paths)  # 2</code></pre><h3 id="Count-Minterms"><a class="docs-heading-anchor" href="#Count-Minterms">Count Minterms</a><a id="Count-Minterms-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Minterms" title="Permalink"></a></h3><p>Count the number of satisfying assignments (minterms):</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# x1 ∧ x2: 2 minterms out of 8 (x3 can be 0 or 1)
+f = bdd_and(mgr, x1, x2)
+minterms = count_minterms(mgr, f, 3)
+println(&quot;Minterms in x1 ∧ x2: &quot;, minterms)  # 2.0
+
+# x1 ∨ x2: 6 minterms out of 8
+g = bdd_or(mgr, x1, x2)
+minterms = count_minterms(mgr, g, 3)
+println(&quot;Minterms in x1 ∨ x2: &quot;, minterms)  # 6.0
+
+# Calculate probability (uniform distribution)
+prob = count_minterms(mgr, g, 3) / 2^3
+println(&quot;P(x1 ∨ x2): &quot;, prob)  # 0.75</code></pre><h3 id="ZDD-Count"><a class="docs-heading-anchor" href="#ZDD-Count">ZDD Count</a><a id="ZDD-Count-1"></a><a class="docs-heading-anchor-permalink" href="#ZDD-Count" title="Permalink"></a></h3><p>Count the number of sets in a ZDD family:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+sets = [[1, 2], [2, 3], [1, 3], [4]]
+family = zdd_from_sets(mgr, sets)
+
+count = zdd_count(mgr, family)
+println(&quot;Number of sets: &quot;, count)  # 4</code></pre><h2 id="Manager-Information"><a class="docs-heading-anchor" href="#Manager-Information">Manager Information</a><a id="Manager-Information-1"></a><a class="docs-heading-anchor-permalink" href="#Manager-Information" title="Permalink"></a></h2><h3 id="Node-Statistics"><a class="docs-heading-anchor" href="#Node-Statistics">Node Statistics</a><a id="Node-Statistics-1"></a><a class="docs-heading-anchor-permalink" href="#Node-Statistics" title="Permalink"></a></h3><p>Get information about the manager&#39;s state:</p><pre><code class="language-julia hljs">mgr = DDManager(10)
+
+# Create some nodes
+for i in 1:10
+    x = ith_var(mgr, i)
+end
+
+# Total nodes in manager
+total_nodes = length(mgr.nodes)
+println(&quot;Total nodes: &quot;, total_nodes)
+
+# Cache statistics
+cache_size = length(mgr.cache.entries)
+println(&quot;Cache size: &quot;, cache_size)
+
+# Unique table statistics
+for (level, table) in enumerate(mgr.unique_tables)
+    if !isempty(table.slots)
+        println(&quot;Level $level: &quot;, length(table.slots), &quot; slots&quot;)
+    end
+end</code></pre><h3 id="Constants"><a class="docs-heading-anchor" href="#Constants">Constants</a><a id="Constants-1"></a><a class="docs-heading-anchor-permalink" href="#Constants" title="Permalink"></a></h3><p>Access special constants:</p><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# BDD constants
+true_node = mgr.one
+false_node = mgr.zero
+
+println(&quot;True node: &quot;, true_node)
+println(&quot;False node: &quot;, false_node)
+
+# Check if a node is a constant
+is_true = (x == mgr.one)
+is_false = (x == mgr.zero)
+is_constant = is_true || is_false</code></pre><h2 id="Debugging-and-Inspection"><a class="docs-heading-anchor" href="#Debugging-and-Inspection">Debugging and Inspection</a><a id="Debugging-and-Inspection-1"></a><a class="docs-heading-anchor-permalink" href="#Debugging-and-Inspection" title="Permalink"></a></h2><h3 id="Node-Information"><a class="docs-heading-anchor" href="#Node-Information">Node Information</a><a id="Node-Information-1"></a><a class="docs-heading-anchor-permalink" href="#Node-Information" title="Permalink"></a></h3><p>Inspect individual nodes:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+
+# Get node ID (includes complement bit)
+node_id = x1
+
+# Check if complemented
+is_complemented = (node_id.id &amp; 1) == 1
+
+# Get actual node index
+node_index = node_id.id &gt;&gt; 1
+
+# Access node (if not terminal)
+if node_index &gt; 0 &amp;&amp; node_index &lt;= length(mgr.nodes)
+    node = mgr.nodes[node_index]
+    println(&quot;Variable index: &quot;, node.index)
+    println(&quot;Then child: &quot;, node.then_child)
+    println(&quot;Else child: &quot;, node.else_child)
+end</code></pre><h3 id="Traversal"><a class="docs-heading-anchor" href="#Traversal">Traversal</a><a id="Traversal-1"></a><a class="docs-heading-anchor-permalink" href="#Traversal" title="Permalink"></a></h3><p>Traverse a decision diagram:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+f = bdd_and(mgr, bdd_and(mgr, x1, x2), x3)
+
+function traverse(mgr, node_id, visited=Set())
+    # Avoid revisiting nodes
+    if node_id in visited
+        return
+    end
+    push!(visited, node_id)
+
+    # Check if terminal
+    if node_id == mgr.zero
+        println(&quot;Terminal: false&quot;)
+        return
+    elseif node_id == mgr.one
+        println(&quot;Terminal: true&quot;)
+        return
+    end
+
+    # Get node index (remove complement bit)
+    is_complemented = (node_id.id &amp; 1) == 1
+    node_index = node_id.id &gt;&gt; 1
+
+    if node_index &gt; 0 &amp;&amp; node_index &lt;= length(mgr.nodes)
+        node = mgr.nodes[node_index]
+        println(&quot;Node: var=&quot;, node.index,
+                &quot; complemented=&quot;, is_complemented)
+
+        # Traverse children
+        traverse(mgr, node.then_child, visited)
+        traverse(mgr, node.else_child, visited)
+    end
+end
+
+traverse(mgr, f)</code></pre><h2 id="Conversion-Functions"><a class="docs-heading-anchor" href="#Conversion-Functions">Conversion Functions</a><a id="Conversion-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Conversion-Functions" title="Permalink"></a></h2><h3 id="BDD-ADD"><a class="docs-heading-anchor" href="#BDD-ADD">BDD ↔ ADD</a><a id="BDD-ADD-1"></a><a class="docs-heading-anchor-permalink" href="#BDD-ADD" title="Permalink"></a></h3><p>Convert between BDDs and ADDs:</p><pre><code class="language-julia hljs">mgr = DDManager(2)
+
+# BDD to ADD
+x1_bdd = ith_var(mgr, 1)
+x2_bdd = ith_var(mgr, 2)
+f_bdd = bdd_and(mgr, x1_bdd, x2_bdd)
+
+f_add = bdd_to_add(mgr, f_bdd)
+println(&quot;BDD converted to ADD&quot;)
+
+# ADD to BDD (threshold at 0)
+x1_add = add_ith_var(mgr, 1)
+x2_add = add_ith_var(mgr, 2)
+g_add = add_plus(mgr, x1_add, x2_add)
+
+g_bdd = add_to_bdd(mgr, g_add)
+println(&quot;ADD converted to BDD&quot;)</code></pre><h3 id="BDD-ZDD"><a class="docs-heading-anchor" href="#BDD-ZDD">BDD ↔ ZDD</a><a id="BDD-ZDD-1"></a><a class="docs-heading-anchor-permalink" href="#BDD-ZDD" title="Permalink"></a></h3><p>Convert between BDDs and ZDDs:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# BDD to ZDD
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+f_bdd = bdd_and(mgr, x1, x2)
+
+f_zdd = bdd_to_zdd(mgr, f_bdd)
+println(&quot;BDD converted to ZDD&quot;)
+
+# ZDD to BDD
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+g_zdd = zdd_product(mgr, s1, s2)
+
+g_bdd = zdd_to_bdd(mgr, g_zdd)
+println(&quot;ZDD converted to BDD&quot;)</code></pre><h3 id="ZDD-Sets"><a class="docs-heading-anchor" href="#ZDD-Sets">ZDD ↔ Sets</a><a id="ZDD-Sets-1"></a><a class="docs-heading-anchor-permalink" href="#ZDD-Sets" title="Permalink"></a></h3><p>Convert between ZDDs and set representations:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+# Sets to ZDD
+sets = [[1, 2], [2, 3], [1, 3], [4]]
+family = zdd_from_sets(mgr, sets)
+println(&quot;Created ZDD from sets&quot;)
+
+# ZDD to sets
+recovered = zdd_to_sets(mgr, family)
+println(&quot;Recovered sets: &quot;, recovered)
+
+# Verify
+@assert sort(sort.(sets)) == sort(sort.(recovered))</code></pre><h2 id="Performance-Monitoring"><a class="docs-heading-anchor" href="#Performance-Monitoring">Performance Monitoring</a><a id="Performance-Monitoring-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Monitoring" title="Permalink"></a></h2><h3 id="Benchmarking-Operations"><a class="docs-heading-anchor" href="#Benchmarking-Operations">Benchmarking Operations</a><a id="Benchmarking-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Benchmarking-Operations" title="Permalink"></a></h3><p>Measure operation performance:</p><pre><code class="language-julia hljs">using BenchmarkTools
+
+mgr = DDManager(10)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+
+# Benchmark AND operation
+@benchmark bdd_and($mgr, $x1, $x2)
+
+# Benchmark with larger formulas
+vars = [ith_var(mgr, i) for i in 1:10]
+@benchmark begin
+    result = $vars[1]
+    for i in 2:10
+        result = bdd_and($mgr, result, $vars[i])
+    end
+end</code></pre><h3 id="Memory-Usage"><a class="docs-heading-anchor" href="#Memory-Usage">Memory Usage</a><a id="Memory-Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Memory-Usage" title="Permalink"></a></h3><p>Monitor memory usage:</p><pre><code class="language-julia hljs">mgr = DDManager(100)
+
+# Create many nodes
+for i in 1:100
+    x = ith_var(mgr, i)
+end
+
+# Check memory usage
+node_memory = sizeof(mgr.nodes[1]) * length(mgr.nodes)
+cache_memory = sizeof(mgr.cache.entries[1]) * length(mgr.cache.entries)
+
+println(&quot;Node memory: &quot;, node_memory, &quot; bytes&quot;)
+println(&quot;Cache memory: &quot;, cache_memory, &quot; bytes&quot;)
+println(&quot;Total: &quot;, node_memory + cache_memory, &quot; bytes&quot;)</code></pre><h2 id="Helper-Functions"><a class="docs-heading-anchor" href="#Helper-Functions">Helper Functions</a><a id="Helper-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Helper-Functions" title="Permalink"></a></h2><h3 id="Variable-Creation"><a class="docs-heading-anchor" href="#Variable-Creation">Variable Creation</a><a id="Variable-Creation-1"></a><a class="docs-heading-anchor-permalink" href="#Variable-Creation" title="Permalink"></a></h3><p>Create multiple variables at once:</p><pre><code class="language-julia hljs">mgr = DDManager(10)
+
+# Create all variables
+vars = [ith_var(mgr, i) for i in 1:10]
+
+# Or for ADDs
+add_vars = [add_ith_var(mgr, i) for i in 1:10]
+
+# Or for ZDDs
+zdd_singletons = [zdd_singleton(mgr, i) for i in 1:10]</code></pre><h3 id="Formula-Building"><a class="docs-heading-anchor" href="#Formula-Building">Formula Building</a><a id="Formula-Building-1"></a><a class="docs-heading-anchor-permalink" href="#Formula-Building" title="Permalink"></a></h3><p>Build complex formulas:</p><pre><code class="language-julia hljs">mgr = DDManager(5)
+vars = [ith_var(mgr, i) for i in 1:5]
+
+# Conjunction of all variables
+conjunction = reduce((acc, v) -&gt; bdd_and(mgr, acc, v), vars)
+
+# Disjunction of all variables
+disjunction = reduce((acc, v) -&gt; bdd_or(mgr, acc, v), vars)
+
+# Parity (XOR of all variables)
+parity = reduce((acc, v) -&gt; bdd_xor(mgr, acc, v), vars)
+
+# At least k variables true
+function at_least_k(mgr, vars, k)
+    n = length(vars)
+    if k == 0
+        return mgr.one
+    end
+    if k &gt; n
+        return mgr.zero
+    end
+
+    # Recursive: include first var or not
+    with_first = bdd_and(mgr, vars[1],
+                         at_least_k(mgr, vars[2:end], k-1))
+    without_first = at_least_k(mgr, vars[2:end], k)
+
+    return bdd_or(mgr, with_first, without_first)
+end
+
+at_least_3 = at_least_k(mgr, vars, 3)</code></pre><h2 id="Validation-and-Testing"><a class="docs-heading-anchor" href="#Validation-and-Testing">Validation and Testing</a><a id="Validation-and-Testing-1"></a><a class="docs-heading-anchor-permalink" href="#Validation-and-Testing" title="Permalink"></a></h2><h3 id="Equivalence-Checking"><a class="docs-heading-anchor" href="#Equivalence-Checking">Equivalence Checking</a><a id="Equivalence-Checking-1"></a><a class="docs-heading-anchor-permalink" href="#Equivalence-Checking" title="Permalink"></a></h3><p>Check if two formulas are equivalent:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# Two ways to express the same formula
+f1 = bdd_or(mgr, bdd_and(mgr, x1, x2), x3)
+f2 = bdd_and(mgr,
+    bdd_or(mgr, x1, x3),
+    bdd_or(mgr, x2, x3))
+
+# Check equivalence (should be different)
+are_equivalent = (f1 == f2)
+println(&quot;Equivalent: &quot;, are_equivalent)
+
+# De Morgan&#39;s law: ¬(x1 ∧ x2) = ¬x1 ∨ ¬x2
+lhs = bdd_not(mgr, bdd_and(mgr, x1, x2))
+rhs = bdd_or(mgr, bdd_not(mgr, x1), bdd_not(mgr, x2))
+@assert lhs == rhs</code></pre><h3 id="Satisfiability-Checking"><a class="docs-heading-anchor" href="#Satisfiability-Checking">Satisfiability Checking</a><a id="Satisfiability-Checking-1"></a><a class="docs-heading-anchor-permalink" href="#Satisfiability-Checking" title="Permalink"></a></h3><p>Check if a formula is satisfiable:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# Satisfiable formula
+f = bdd_and(mgr, x1, x2)
+is_sat = (f != mgr.zero)
+println(&quot;Satisfiable: &quot;, is_sat)  # true
+
+# Unsatisfiable formula
+g = bdd_and(mgr, x1, bdd_not(mgr, x1))
+is_unsat = (g == mgr.zero)
+println(&quot;Unsatisfiable: &quot;, is_unsat)  # true
+
+# Tautology
+h = bdd_or(mgr, x1, bdd_not(mgr, x1))
+is_tautology = (h == mgr.one)
+println(&quot;Tautology: &quot;, is_tautology)  # true</code></pre><h2 id="Best-Practices"><a class="docs-heading-anchor" href="#Best-Practices">Best Practices</a><a id="Best-Practices-1"></a><a class="docs-heading-anchor-permalink" href="#Best-Practices" title="Permalink"></a></h2><h3 id="1.-Reuse-Managers"><a class="docs-heading-anchor" href="#1.-Reuse-Managers">1. Reuse Managers</a><a id="1.-Reuse-Managers-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Reuse-Managers" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Good: One manager for related operations
+mgr = DDManager(10)
+results = []
+for i in 1:100
+    x = ith_var(mgr, i % 10 + 1)
+    push!(results, x)
+end
+
+# Bad: Creating managers repeatedly
+for i in 1:100
+    mgr = DDManager(10)  # Expensive!
+    x = ith_var(mgr, 1)
+end</code></pre><h3 id="2.-Check-for-Constants"><a class="docs-heading-anchor" href="#2.-Check-for-Constants">2. Check for Constants</a><a id="2.-Check-for-Constants-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Check-for-Constants" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = ith_var(mgr, 1)
+
+# Check before expensive operations
+f = bdd_and(mgr, x1, mgr.zero)
+if f == mgr.zero
+    println(&quot;Result is false, skip further operations&quot;)
+end</code></pre><h3 id="3.-Use-Appropriate-Counting"><a class="docs-heading-anchor" href="#3.-Use-Appropriate-Counting">3. Use Appropriate Counting</a><a id="3.-Use-Appropriate-Counting-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Use-Appropriate-Counting" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(10)
+x1, x2 = [ith_var(mgr, i) for i in 1:2]
+f = bdd_and(mgr, x1, x2)
+
+# For node count (diagram size)
+nodes = count_nodes(mgr, f)
+
+# For satisfying assignments
+minterms = count_minterms(mgr, f, 2)
+
+# For paths to true
+paths = count_paths(mgr, f)
+
+# Choose based on what you need to measure</code></pre><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../bdds/">BDD Guide</a>: Binary Decision Diagrams</li><li><a href="../adds/">ADD Guide</a>: Algebraic Decision Diagrams</li><li><a href="../zdds/">ZDD Guide</a>: Zero-suppressed Decision Diagrams</li><li><a href="../../api/#API-Reference">API Reference</a>: Complete API documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../zdds/">« Zero-suppressed Decision Diagrams (ZDDs)</a><a class="docs-footer-nextpage" href="../../performance/">Performance »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

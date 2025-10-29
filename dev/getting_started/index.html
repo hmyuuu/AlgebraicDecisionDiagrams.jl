@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Getting Started · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Getting Started · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Getting Started · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Getting Started · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/getting_started/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/getting_started/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/getting_started/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Getting Started</a><ul class="internal"><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Basic-Concepts"><span>Basic Concepts</span></a></li><li><a class="tocitem" href="#Your-First-BDD"><span>Your First BDD</span></a></li><li><a class="tocitem" href="#Your-First-ADD"><span>Your First ADD</span></a></li><li><a class="tocitem" href="#Your-First-ZDD"><span>Your First ZDD</span></a></li><li><a class="tocitem" href="#Common-Patterns"><span>Common Patterns</span></a></li><li><a class="tocitem" href="#Performance-Tips"><span>Performance Tips</span></a></li><li><a class="tocitem" href="#Next-Steps"><span>Next Steps</span></a></li></ul></li><li><span class="tocitem">User Guide</span><ul><li><a class="tocitem" href="../guide/bdds/">Binary Decision Diagrams (BDDs)</a></li><li><a class="tocitem" href="../guide/adds/">Algebraic Decision Diagrams (ADDs)</a></li><li><a class="tocitem" href="../guide/zdds/">Zero-suppressed Decision Diagrams (ZDDs)</a></li><li><a class="tocitem" href="../guide/utilities/">Utilities</a></li></ul></li><li><a class="tocitem" href="../performance/">Performance</a></li><li><a class="tocitem" href="../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li><a class="tocitem" href="../internals/">Internals</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Getting Started</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Getting Started</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/getting_started.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Getting-Started"><a class="docs-heading-anchor" href="#Getting-Started">Getting Started</a><a id="Getting-Started-1"></a><a class="docs-heading-anchor-permalink" href="#Getting-Started" title="Permalink"></a></h1><p>This guide will help you get started with AlgebraicDecisionDiagrams.jl.</p><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><p>Install the package using Julia&#39;s package manager:</p><pre><code class="language-julia hljs">using Pkg
+Pkg.add(&quot;AlgebraicDecisionDiagrams&quot;)</code></pre><p>For development:</p><pre><code class="language-julia hljs">Pkg.develop(url=&quot;https://github.com/yourusername/AlgebraicDecisionDiagrams.jl&quot;)</code></pre><h2 id="Basic-Concepts"><a class="docs-heading-anchor" href="#Basic-Concepts">Basic Concepts</a><a id="Basic-Concepts-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Concepts" title="Permalink"></a></h2><h3 id="Decision-Diagrams"><a class="docs-heading-anchor" href="#Decision-Diagrams">Decision Diagrams</a><a id="Decision-Diagrams-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Diagrams" title="Permalink"></a></h3><p>Decision diagrams are directed acyclic graphs (DAGs) used to represent functions over discrete variables. They provide:</p><ul><li><strong>Canonical representation</strong>: Unique representation for each function</li><li><strong>Efficient operations</strong>: Boolean/arithmetic operations in polynomial time</li><li><strong>Compact storage</strong>: Often exponentially smaller than truth tables</li></ul><h3 id="Manager"><a class="docs-heading-anchor" href="#Manager">Manager</a><a id="Manager-1"></a><a class="docs-heading-anchor-permalink" href="#Manager" title="Permalink"></a></h3><p>All operations require a <code>DDManager</code> that manages the unique table and operation cache:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+# Create a manager for up to 10 variables
+mgr = DDManager(10)</code></pre><p>The manager maintains:</p><ul><li>Unique table for canonical node representation</li><li>Computed table for operation memoization</li><li>Reference counting for memory management</li></ul><h2 id="Your-First-BDD"><a class="docs-heading-anchor" href="#Your-First-BDD">Your First BDD</a><a id="Your-First-BDD-1"></a><a class="docs-heading-anchor-permalink" href="#Your-First-BDD" title="Permalink"></a></h2><p>Let&#39;s create a simple Boolean function: <code>f(x₁, x₂) = x₁ ∧ x₂</code></p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+# Create manager
+mgr = DDManager(2)
+
+# Create variables
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+
+# Create function: x1 AND x2
+f = bdd_and(mgr, x1, x2)
+
+# Count nodes
+println(&quot;Nodes: &quot;, count_nodes(mgr, f))  # 2
+
+# Count satisfying assignments
+println(&quot;Minterms: &quot;, count_minterms(mgr, f, 2))  # 1.0 (only 11 satisfies)
+
+# Evaluate
+assignment = Dict(1 =&gt; true, 2 =&gt; true)
+println(&quot;f(1,1) = &quot;, bdd_eval(mgr, f, assignment))  # true
+
+assignment = Dict(1 =&gt; true, 2 =&gt; false)
+println(&quot;f(1,0) = &quot;, bdd_eval(mgr, f, assignment))  # false</code></pre><h2 id="Your-First-ADD"><a class="docs-heading-anchor" href="#Your-First-ADD">Your First ADD</a><a id="Your-First-ADD-1"></a><a class="docs-heading-anchor-permalink" href="#Your-First-ADD" title="Permalink"></a></h2><p>ADDs extend BDDs to real-valued functions:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(2)
+
+# Create ADD variables (0-1 functions)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# Create constants
+c1 = add_const(mgr, 5.0)
+c2 = add_const(mgr, 3.0)
+
+# Arithmetic: f = 5*x1 + 3*x2
+f = add_plus(mgr,
+    add_times(mgr, c1, x1),
+    add_times(mgr, c2, x2))
+
+# Evaluate
+assignment = Dict(1 =&gt; 1.0, 2 =&gt; 1.0)
+println(&quot;f(1,1) = &quot;, add_eval(mgr, f, assignment))  # 8.0
+
+assignment = Dict(1 =&gt; 1.0, 2 =&gt; 0.0)
+println(&quot;f(1,0) = &quot;, add_eval(mgr, f, assignment))  # 5.0</code></pre><h2 id="Your-First-ZDD"><a class="docs-heading-anchor" href="#Your-First-ZDD">Your First ZDD</a><a id="Your-First-ZDD-1"></a><a class="docs-heading-anchor-permalink" href="#Your-First-ZDD" title="Permalink"></a></h2><p>ZDDs are optimized for representing sparse sets:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(4)
+
+# Create sets
+sets = [
+    [1, 2],    # {1, 2}
+    [2, 3],    # {2, 3}
+    [1, 3],    # {1, 3}
+    [4]        # {4}
+]
+
+# Create ZDD representing this family of sets
+family = zdd_from_sets(mgr, sets)
+
+# Count sets in family
+println(&quot;Number of sets: &quot;, zdd_count(mgr, family))  # 4
+
+# Convert back to sets
+recovered = zdd_to_sets(mgr, family)
+println(&quot;Sets: &quot;, recovered)
+
+# Set operations
+s1 = zdd_singleton(mgr, 1)  # {1}
+s2 = zdd_singleton(mgr, 2)  # {2}
+
+# Union: {{1}, {2}}
+union = zdd_union(mgr, s1, s2)
+
+# Product: {{1,2}}
+product = zdd_product(mgr, s1, s2)</code></pre><h2 id="Common-Patterns"><a class="docs-heading-anchor" href="#Common-Patterns">Common Patterns</a><a id="Common-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Patterns" title="Permalink"></a></h2><h3 id="Building-Complex-Formulas"><a class="docs-heading-anchor" href="#Building-Complex-Formulas">Building Complex Formulas</a><a id="Building-Complex-Formulas-1"></a><a class="docs-heading-anchor-permalink" href="#Building-Complex-Formulas" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(4)
+x1, x2, x3, x4 = [ith_var(mgr, i) for i in 1:4]
+
+# (x1 ∧ x2) ∨ (x3 ∧ x4)
+f = bdd_or(mgr,
+    bdd_and(mgr, x1, x2),
+    bdd_and(mgr, x3, x4))
+
+# ¬(x1 ⊕ x2)  (XNOR)
+g = bdd_not(mgr, bdd_xor(mgr, x1, x2))</code></pre><h3 id="Quantification"><a class="docs-heading-anchor" href="#Quantification">Quantification</a><a id="Quantification-1"></a><a class="docs-heading-anchor-permalink" href="#Quantification" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# f = x1 ∧ x2 ∧ x3
+f = bdd_and(mgr, bdd_and(mgr, x1, x2), x3)
+
+# ∃x2. f = x1 ∧ x3
+exists_x2 = bdd_exists(mgr, f, 2)
+
+# ∀x2. f = false (not true for all x2)
+forall_x2 = bdd_forall(mgr, f, 2)</code></pre><h3 id="Restriction"><a class="docs-heading-anchor" href="#Restriction">Restriction</a><a id="Restriction-1"></a><a class="docs-heading-anchor-permalink" href="#Restriction" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+# f = x1 ∧ x2 ∧ x3
+f = bdd_and(mgr, bdd_and(mgr, x1, x2), x3)
+
+# Restrict x2 = true: f|x2=1 = x1 ∧ x3
+restricted = bdd_restrict(mgr, f, 2, true)</code></pre><h2 id="Performance-Tips"><a class="docs-heading-anchor" href="#Performance-Tips">Performance Tips</a><a id="Performance-Tips-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Tips" title="Permalink"></a></h2><h3 id="1.-Reuse-Managers"><a class="docs-heading-anchor" href="#1.-Reuse-Managers">1. Reuse Managers</a><a id="1.-Reuse-Managers-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Reuse-Managers" title="Permalink"></a></h3><p>Creating a manager has overhead (~900μs). Reuse managers when possible:</p><pre><code class="language-julia hljs"># Good: One manager for all operations
+mgr = DDManager(10)
+for i in 1:1000
+    x = ith_var(mgr, i % 10 + 1)
+    # ... operations ...
+end
+
+# Bad: Creating manager in loop
+for i in 1:1000
+    mgr = DDManager(10)  # Expensive!
+    x = ith_var(mgr, 1)
+end</code></pre><h3 id="2.-Variable-Ordering-Matters"><a class="docs-heading-anchor" href="#2.-Variable-Ordering-Matters">2. Variable Ordering Matters</a><a id="2.-Variable-Ordering-Matters-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Variable-Ordering-Matters" title="Permalink"></a></h3><p>Variable ordering significantly affects BDD size:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+# Good ordering for (x1 ∧ x2) ∨ (x3 ∧ x4)
+x1, x2, x3, x4 = [ith_var(mgr, i) for i in 1:4]
+f = bdd_or(mgr, bdd_and(mgr, x1, x2), bdd_and(mgr, x3, x4))
+println(&quot;Nodes: &quot;, count_nodes(mgr, f))  # Small
+
+# Bad ordering can lead to exponential blowup
+# (Variable reordering not yet implemented)</code></pre><h3 id="3.-Use-Appropriate-DD-Type"><a class="docs-heading-anchor" href="#3.-Use-Appropriate-DD-Type">3. Use Appropriate DD Type</a><a id="3.-Use-Appropriate-DD-Type-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Use-Appropriate-DD-Type" title="Permalink"></a></h3><ul><li><strong>BDDs</strong>: Boolean functions, logic circuits</li><li><strong>ADDs</strong>: Functions with numeric values, probabilities</li><li><strong>ZDDs</strong>: Sparse sets, combinatorial problems</li></ul><h3 id="4.-Monitor-Memory-Usage"><a class="docs-heading-anchor" href="#4.-Monitor-Memory-Usage">4. Monitor Memory Usage</a><a id="4.-Monitor-Memory-Usage-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Monitor-Memory-Usage" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(10)
+
+# ... many operations ...
+
+# Check statistics
+println(&quot;Total nodes: &quot;, length(mgr.nodes))
+println(&quot;Cache size: &quot;, length(mgr.cache.entries))
+
+# Garbage collection (if needed)
+# gc_collect(mgr)  # Not yet implemented</code></pre><h2 id="Next-Steps"><a class="docs-heading-anchor" href="#Next-Steps">Next Steps</a><a id="Next-Steps-1"></a><a class="docs-heading-anchor-permalink" href="#Next-Steps" title="Permalink"></a></h2><ul><li><a href="../guide/bdds/">BDD Guide</a>: Detailed guide to Binary Decision Diagrams</li><li><a href="../guide/adds/">ADD Guide</a>: Detailed guide to Algebraic Decision Diagrams</li><li><a href="../guide/zdds/">ZDD Guide</a>: Detailed guide to Zero-suppressed Decision Diagrams</li><li><a href="../performance/#Performance">Performance</a>: Performance optimization and benchmarking</li><li><a href="../api/#API-Reference">API Reference</a>: Complete API documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../guide/bdds/">Binary Decision Diagrams (BDDs) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

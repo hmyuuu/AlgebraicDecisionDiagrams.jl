@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Zero-suppressed Decision Diagrams (ZDDs) · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Zero-suppressed Decision Diagrams (ZDDs) · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Zero-suppressed Decision Diagrams (ZDDs) · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Zero-suppressed Decision Diagrams (ZDDs) · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/zdds/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/zdds/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/zdds/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting_started/">Getting Started</a></li><li><span class="tocitem">User Guide</span><ul><li><a class="tocitem" href="../bdds/">Binary Decision Diagrams (BDDs)</a></li><li><a class="tocitem" href="../adds/">Algebraic Decision Diagrams (ADDs)</a></li><li class="is-active"><a class="tocitem" href>Zero-suppressed Decision Diagrams (ZDDs)</a><ul class="internal"><li><a class="tocitem" href="#What-are-ZDDs?"><span>What are ZDDs?</span></a></li><li><a class="tocitem" href="#Creating-ZDDs"><span>Creating ZDDs</span></a></li><li><a class="tocitem" href="#Set-Operations"><span>Set Operations</span></a></li><li><a class="tocitem" href="#Counting"><span>Counting</span></a></li><li><a class="tocitem" href="#Converting-Between-BDDs-and-ZDDs"><span>Converting Between BDDs and ZDDs</span></a></li><li><a class="tocitem" href="#Applications"><span>Applications</span></a></li><li><a class="tocitem" href="#Performance-Tips"><span>Performance Tips</span></a></li><li><a class="tocitem" href="#ZDD-Reduction-Rule"><span>ZDD Reduction Rule</span></a></li><li><a class="tocitem" href="#Common-Patterns"><span>Common Patterns</span></a></li><li><a class="tocitem" href="#Limitations"><span>Limitations</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li><li><a class="tocitem" href="../utilities/">Utilities</a></li></ul></li><li><a class="tocitem" href="../../performance/">Performance</a></li><li><a class="tocitem" href="../../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../internals/">Internals</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">User Guide</a></li><li class="is-active"><a href>Zero-suppressed Decision Diagrams (ZDDs)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Zero-suppressed Decision Diagrams (ZDDs)</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/guide/zdds.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Zero-suppressed-Decision-Diagrams-(ZDDs)"><a class="docs-heading-anchor" href="#Zero-suppressed-Decision-Diagrams-(ZDDs)">Zero-suppressed Decision Diagrams (ZDDs)</a><a id="Zero-suppressed-Decision-Diagrams-(ZDDs)-1"></a><a class="docs-heading-anchor-permalink" href="#Zero-suppressed-Decision-Diagrams-(ZDDs)" title="Permalink"></a></h1><p>Zero-suppressed Decision Diagrams (ZDDs) are a variant of BDDs optimized for representing sparse sets and combinatorial objects. They are particularly efficient for set families where most elements are absent.</p><h2 id="What-are-ZDDs?"><a class="docs-heading-anchor" href="#What-are-ZDDs?">What are ZDDs?</a><a id="What-are-ZDDs?-1"></a><a class="docs-heading-anchor-permalink" href="#What-are-ZDDs?" title="Permalink"></a></h2><p>ZDDs differ from BDDs in their reduction rule:</p><ul><li><strong>BDD reduction</strong>: If both children are the same, eliminate the node</li><li><strong>ZDD reduction</strong>: If the then-child is empty (⊥), eliminate the node and return the else-child</li></ul><p>This makes ZDDs ideal for:</p><ul><li>Sparse set families</li><li>Combinatorial structures (paths, cuts, matchings)</li><li>Power set operations</li><li>Constraint satisfaction problems</li></ul><h2 id="Creating-ZDDs"><a class="docs-heading-anchor" href="#Creating-ZDDs">Creating ZDDs</a><a id="Creating-ZDDs-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-ZDDs" title="Permalink"></a></h2><h3 id="Empty-Set-and-Base-Set"><a class="docs-heading-anchor" href="#Empty-Set-and-Base-Set">Empty Set and Base Set</a><a id="Empty-Set-and-Base-Set-1"></a><a class="docs-heading-anchor-permalink" href="#Empty-Set-and-Base-Set" title="Permalink"></a></h3><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(5)
+
+# Empty family: ∅
+empty = mgr.zero
+
+# Family containing only the empty set: {∅}
+base = mgr.one</code></pre><h3 id="Singletons"><a class="docs-heading-anchor" href="#Singletons">Singletons</a><a id="Singletons-1"></a><a class="docs-heading-anchor-permalink" href="#Singletons" title="Permalink"></a></h3><p>Create a family containing a single element:</p><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# Family containing {1}: {{1}}
+s1 = zdd_singleton(mgr, 1)
+
+# Family containing {2}: {{2}}
+s2 = zdd_singleton(mgr, 2)
+
+# Family containing {5}: {{5}}
+s5 = zdd_singleton(mgr, 5)</code></pre><h3 id="From-Sets"><a class="docs-heading-anchor" href="#From-Sets">From Sets</a><a id="From-Sets-1"></a><a class="docs-heading-anchor-permalink" href="#From-Sets" title="Permalink"></a></h3><p>Create a ZDD from a collection of sets:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+# Family of sets: {{1, 2}, {2, 3}, {1, 3}, {4}}
+sets = [
+    [1, 2],
+    [2, 3],
+    [1, 3],
+    [4]
+]
+
+family = zdd_from_sets(mgr, sets)
+
+# Count sets in family
+count = zdd_count(mgr, family)  # 4
+
+# Convert back to sets
+recovered = zdd_to_sets(mgr, family)
+println(recovered)  # [[1, 2], [2, 3], [1, 3], [4]]</code></pre><h2 id="Set-Operations"><a class="docs-heading-anchor" href="#Set-Operations">Set Operations</a><a id="Set-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Set-Operations" title="Permalink"></a></h2><h3 id="Union"><a class="docs-heading-anchor" href="#Union">Union</a><a id="Union-1"></a><a class="docs-heading-anchor-permalink" href="#Union" title="Permalink"></a></h3><p>Union of two set families:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# F1 = {{1}, {2}}
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+f1 = zdd_union(mgr, s1, s2)
+
+# F2 = {{2}, {3}}
+s3 = zdd_singleton(mgr, 3)
+f2 = zdd_union(mgr, s2, s3)
+
+# F1 ∪ F2 = {{1}, {2}, {3}}
+union = zdd_union(mgr, f1, f2)
+
+sets = zdd_to_sets(mgr, union)
+println(sets)  # [[1], [2], [3]]</code></pre><h3 id="Intersection"><a class="docs-heading-anchor" href="#Intersection">Intersection</a><a id="Intersection-1"></a><a class="docs-heading-anchor-permalink" href="#Intersection" title="Permalink"></a></h3><p>Intersection of two set families:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# F1 = {{1}, {2}}
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+f1 = zdd_union(mgr, s1, s2)
+
+# F2 = {{2}, {3}}
+s3 = zdd_singleton(mgr, 3)
+f2 = zdd_union(mgr, s2, s3)
+
+# F1 ∩ F2 = {{2}}
+intersection = zdd_intersection(mgr, f1, f2)
+
+sets = zdd_to_sets(mgr, intersection)
+println(sets)  # [[2]]</code></pre><h3 id="Difference"><a class="docs-heading-anchor" href="#Difference">Difference</a><a id="Difference-1"></a><a class="docs-heading-anchor-permalink" href="#Difference" title="Permalink"></a></h3><p>Set difference:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# F1 = {{1}, {2}, {3}}
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+s3 = zdd_singleton(mgr, 3)
+f1 = zdd_union(mgr, zdd_union(mgr, s1, s2), s3)
+
+# F2 = {{2}}
+f2 = s2
+
+# F1 \ F2 = {{1}, {3}}
+difference = zdd_difference(mgr, f1, f2)
+
+sets = zdd_to_sets(mgr, difference)
+println(sets)  # [[1], [3]]</code></pre><h3 id="Product-(Cartesian-Product)"><a class="docs-heading-anchor" href="#Product-(Cartesian-Product)">Product (Cartesian Product)</a><a id="Product-(Cartesian-Product)-1"></a><a class="docs-heading-anchor-permalink" href="#Product-(Cartesian-Product)" title="Permalink"></a></h3><p>Cartesian product of set families:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+# F1 = {{1}, {2}}
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+f1 = zdd_union(mgr, s1, s2)
+
+# F2 = {{3}, {4}}
+s3 = zdd_singleton(mgr, 3)
+s4 = zdd_singleton(mgr, 4)
+f2 = zdd_union(mgr, s3, s4)
+
+# F1 × F2 = {{1,3}, {1,4}, {2,3}, {2,4}}
+product = zdd_product(mgr, f1, f2)
+
+sets = zdd_to_sets(mgr, product)
+println(sets)  # [[1,3], [1,4], [2,3], [2,4]]</code></pre><h2 id="Counting"><a class="docs-heading-anchor" href="#Counting">Counting</a><a id="Counting-1"></a><a class="docs-heading-anchor-permalink" href="#Counting" title="Permalink"></a></h2><h3 id="Count-Sets"><a class="docs-heading-anchor" href="#Count-Sets">Count Sets</a><a id="Count-Sets-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Sets" title="Permalink"></a></h3><p>Count the number of sets in a family:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+sets = [[1, 2], [2, 3], [1, 3], [4]]
+family = zdd_from_sets(mgr, sets)
+
+count = zdd_count(mgr, family)
+println(&quot;Number of sets: &quot;, count)  # 4</code></pre><h3 id="Count-Nodes"><a class="docs-heading-anchor" href="#Count-Nodes">Count Nodes</a><a id="Count-Nodes-1"></a><a class="docs-heading-anchor-permalink" href="#Count-Nodes" title="Permalink"></a></h3><p>Count nodes in the ZDD:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+sets = [[1, 2], [2, 3], [1, 3], [4]]
+family = zdd_from_sets(mgr, sets)
+
+nodes = count_nodes(mgr, family)
+println(&quot;Number of nodes: &quot;, nodes)</code></pre><h2 id="Converting-Between-BDDs-and-ZDDs"><a class="docs-heading-anchor" href="#Converting-Between-BDDs-and-ZDDs">Converting Between BDDs and ZDDs</a><a id="Converting-Between-BDDs-and-ZDDs-1"></a><a class="docs-heading-anchor-permalink" href="#Converting-Between-BDDs-and-ZDDs" title="Permalink"></a></h2><h3 id="BDD-to-ZDD"><a class="docs-heading-anchor" href="#BDD-to-ZDD">BDD to ZDD</a><a id="BDD-to-ZDD-1"></a><a class="docs-heading-anchor-permalink" href="#BDD-to-ZDD" title="Permalink"></a></h3><p>Convert a BDD to a ZDD (characteristic function to set family):</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# BDD: x1 ∧ x2 (true when both x1 and x2 are true)
+x1 = ith_var(mgr, 1)
+x2 = ith_var(mgr, 2)
+bdd = bdd_and(mgr, x1, x2)
+
+# Convert to ZDD: family of sets where x1 and x2 are present
+zdd = bdd_to_zdd(mgr, bdd)
+
+# Should contain sets with both 1 and 2
+sets = zdd_to_sets(mgr, zdd)
+println(sets)  # [[1, 2], [1, 2, 3]]</code></pre><h3 id="ZDD-to-BDD"><a class="docs-heading-anchor" href="#ZDD-to-BDD">ZDD to BDD</a><a id="ZDD-to-BDD-1"></a><a class="docs-heading-anchor-permalink" href="#ZDD-to-BDD" title="Permalink"></a></h3><p>Convert a ZDD to a BDD:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# ZDD: {{1, 2}}
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+zdd = zdd_product(mgr, s1, s2)
+
+# Convert to BDD
+bdd = zdd_to_bdd(mgr, zdd)
+
+# BDD should be true when x1=1, x2=1, x3=0
+assignment = Dict(1 =&gt; true, 2 =&gt; true, 3 =&gt; false)
+result = bdd_eval(mgr, bdd, assignment)
+println(result)  # true</code></pre><h2 id="Applications"><a class="docs-heading-anchor" href="#Applications">Applications</a><a id="Applications-1"></a><a class="docs-heading-anchor-permalink" href="#Applications" title="Permalink"></a></h2><h3 id="Power-Set"><a class="docs-heading-anchor" href="#Power-Set">Power Set</a><a id="Power-Set-1"></a><a class="docs-heading-anchor-permalink" href="#Power-Set" title="Permalink"></a></h3><p>Generate all subsets of a set:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# Start with {∅}
+result = mgr.one
+
+# Add each element optionally
+for i in 1:3
+    singleton = zdd_singleton(mgr, i)
+    # For each existing set, add version with and without element i
+    with_i = zdd_product(mgr, result, singleton)
+    result = zdd_union(mgr, result, with_i)
+end
+
+# Result: all subsets of {1, 2, 3}
+sets = zdd_to_sets(mgr, result)
+println(&quot;Power set: &quot;, sets)
+# [[], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]]</code></pre><h3 id="Combinations"><a class="docs-heading-anchor" href="#Combinations">Combinations</a><a id="Combinations-1"></a><a class="docs-heading-anchor-permalink" href="#Combinations" title="Permalink"></a></h3><p>Generate all k-combinations:</p><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# Generate all 3-combinations of {1, 2, 3, 4, 5}
+function combinations(mgr, n, k)
+    if k == 0
+        return mgr.one  # {∅}
+    end
+    if k &gt; n
+        return mgr.zero  # ∅
+    end
+
+    # Recursive: combinations with element n, or without
+    with_n = zdd_product(mgr,
+        combinations(mgr, n-1, k-1),
+        zdd_singleton(mgr, n))
+    without_n = combinations(mgr, n-1, k)
+
+    return zdd_union(mgr, with_n, without_n)
+end
+
+c_3_5 = combinations(mgr, 5, 3)
+sets = zdd_to_sets(mgr, c_3_5)
+println(&quot;3-combinations of {1,2,3,4,5}: &quot;, length(sets))  # 10</code></pre><h3 id="Graph-Paths"><a class="docs-heading-anchor" href="#Graph-Paths">Graph Paths</a><a id="Graph-Paths-1"></a><a class="docs-heading-anchor-permalink" href="#Graph-Paths" title="Permalink"></a></h3><p>Represent all paths in a graph:</p><pre><code class="language-julia hljs">mgr = DDManager(6)
+
+# Graph edges: 1-2, 2-3, 1-3, 3-4, 2-4
+# Represent each edge as a number
+edges = Dict(
+    (1,2) =&gt; 1,
+    (2,3) =&gt; 2,
+    (1,3) =&gt; 3,
+    (3,4) =&gt; 4,
+    (2,4) =&gt; 5
+)
+
+# Paths from 1 to 4:
+# Path 1: 1-&gt;2-&gt;4 (edges 1, 5)
+path1 = zdd_product(mgr,
+    zdd_singleton(mgr, edges[(1,2)]),
+    zdd_singleton(mgr, edges[(2,4)]))
+
+# Path 2: 1-&gt;3-&gt;4 (edges 3, 4)
+path2 = zdd_product(mgr,
+    zdd_singleton(mgr, edges[(1,3)]),
+    zdd_singleton(mgr, edges[(3,4)]))
+
+# Path 3: 1-&gt;2-&gt;3-&gt;4 (edges 1, 2, 4)
+path3 = zdd_product(mgr,
+    zdd_product(mgr,
+        zdd_singleton(mgr, edges[(1,2)]),
+        zdd_singleton(mgr, edges[(2,3)])),
+    zdd_singleton(mgr, edges[(3,4)]))
+
+# All paths
+all_paths = zdd_union(mgr, zdd_union(mgr, path1, path2), path3)
+
+paths = zdd_to_sets(mgr, all_paths)
+println(&quot;Paths from 1 to 4: &quot;, paths)</code></pre><h3 id="Constraint-Satisfaction"><a class="docs-heading-anchor" href="#Constraint-Satisfaction">Constraint Satisfaction</a><a id="Constraint-Satisfaction-1"></a><a class="docs-heading-anchor-permalink" href="#Constraint-Satisfaction" title="Permalink"></a></h3><p>Represent solutions to constraints:</p><pre><code class="language-julia hljs">mgr = DDManager(4)
+
+# Variables: x1, x2, x3, x4
+# Constraint 1: At least one of x1, x2 must be selected
+# Constraint 2: If x1 is selected, x3 must be selected
+# Constraint 3: x2 and x4 cannot both be selected
+
+# Start with all possible subsets
+all_subsets = mgr.one
+for i in 1:4
+    singleton = zdd_singleton(mgr, i)
+    with_i = zdd_product(mgr, all_subsets, singleton)
+    all_subsets = zdd_union(mgr, all_subsets, with_i)
+end
+
+# Apply constraints by filtering
+# (This is a simplified example - real implementation would be more efficient)
+
+solutions = zdd_to_sets(mgr, all_subsets)
+
+# Filter: at least one of x1, x2
+solutions = filter(s -&gt; 1 in s || 2 in s, solutions)
+
+# Filter: if x1 then x3
+solutions = filter(s -&gt; !(1 in s) || (3 in s), solutions)
+
+# Filter: not both x2 and x4
+solutions = filter(s -&gt; !(2 in s &amp;&amp; 4 in s), solutions)
+
+println(&quot;Valid solutions: &quot;, solutions)</code></pre><h2 id="Performance-Tips"><a class="docs-heading-anchor" href="#Performance-Tips">Performance Tips</a><a id="Performance-Tips-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Tips" title="Permalink"></a></h2><h3 id="1.-ZDDs-vs-BDDs-for-Sparse-Sets"><a class="docs-heading-anchor" href="#1.-ZDDs-vs-BDDs-for-Sparse-Sets">1. ZDDs vs BDDs for Sparse Sets</a><a id="1.-ZDDs-vs-BDDs-for-Sparse-Sets-1"></a><a class="docs-heading-anchor-permalink" href="#1.-ZDDs-vs-BDDs-for-Sparse-Sets" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(100)
+
+# For sparse sets (few elements), ZDDs are much more efficient
+sparse_sets = [
+    [1, 50],
+    [25, 75],
+    [10, 90]
+]
+
+# ZDD: Very compact
+zdd = zdd_from_sets(mgr, sparse_sets)
+zdd_nodes = count_nodes(mgr, zdd)
+
+# BDD would be much larger for the same representation
+println(&quot;ZDD nodes: &quot;, zdd_nodes)  # Small</code></pre><h3 id="2.-Build-Incrementally"><a class="docs-heading-anchor" href="#2.-Build-Incrementally">2. Build Incrementally</a><a id="2.-Build-Incrementally-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Build-Incrementally" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(10)
+
+# Good: Build incrementally
+result = mgr.one
+for i in 1:10
+    singleton = zdd_singleton(mgr, i)
+    result = zdd_union(mgr, result, singleton)
+end
+
+# Result: {{1}, {2}, ..., {10}}</code></pre><h3 id="3.-Use-Product-for-Set-Construction"><a class="docs-heading-anchor" href="#3.-Use-Product-for-Set-Construction">3. Use Product for Set Construction</a><a id="3.-Use-Product-for-Set-Construction-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Use-Product-for-Set-Construction" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# Good: Use product to build sets
+s1 = zdd_singleton(mgr, 1)
+s2 = zdd_singleton(mgr, 2)
+s3 = zdd_singleton(mgr, 3)
+
+# {{1, 2, 3}}
+set_123 = zdd_product(mgr, zdd_product(mgr, s1, s2), s3)
+
+# More efficient than converting from array</code></pre><h2 id="ZDD-Reduction-Rule"><a class="docs-heading-anchor" href="#ZDD-Reduction-Rule">ZDD Reduction Rule</a><a id="ZDD-Reduction-Rule-1"></a><a class="docs-heading-anchor-permalink" href="#ZDD-Reduction-Rule" title="Permalink"></a></h2><p>Understanding the ZDD reduction rule:</p><pre><code class="language-julia hljs"># BDD reduction: if then_child == else_child, return child
+# ZDD reduction: if then_child == ⊥ (empty), return else_child
+
+# Example: Representing {{2}}
+# Variable 1: else-child points to node for variable 2
+#            then-child would be ⊥, so node is eliminated
+# Variable 2: then-child is ⊤ (base set)
+#            else-child is ⊥ (empty)
+#            Node is kept because then-child ≠ ⊥
+
+# This makes ZDDs compact for sparse sets</code></pre><h2 id="Common-Patterns"><a class="docs-heading-anchor" href="#Common-Patterns">Common Patterns</a><a id="Common-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Patterns" title="Permalink"></a></h2><h3 id="Set-Family-Operations"><a class="docs-heading-anchor" href="#Set-Family-Operations">Set Family Operations</a><a id="Set-Family-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Set-Family-Operations" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# Create families
+f1 = zdd_from_sets(mgr, [[1, 2], [3]])
+f2 = zdd_from_sets(mgr, [[2, 3], [4]])
+
+# Union: all sets from either family
+union = zdd_union(mgr, f1, f2)
+
+# Intersection: sets in both families
+intersection = zdd_intersection(mgr, f1, f2)
+
+# Difference: sets in f1 but not f2
+difference = zdd_difference(mgr, f1, f2)
+
+# Product: combine sets from both families
+product = zdd_product(mgr, f1, f2)</code></pre><h3 id="Filtering-Sets"><a class="docs-heading-anchor" href="#Filtering-Sets">Filtering Sets</a><a id="Filtering-Sets-1"></a><a class="docs-heading-anchor-permalink" href="#Filtering-Sets" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(5)
+
+# Start with a family
+family = zdd_from_sets(mgr, [[1], [1, 2], [2, 3], [3, 4, 5]])
+
+# Filter: keep only sets containing element 2
+s2 = zdd_singleton(mgr, 2)
+
+# Sets containing 2 are those that intersect with {2}
+# (More complex filtering would require custom operations)
+
+sets = zdd_to_sets(mgr, family)
+filtered = filter(s -&gt; 2 in s, sets)
+result = zdd_from_sets(mgr, filtered)</code></pre><h2 id="Limitations"><a class="docs-heading-anchor" href="#Limitations">Limitations</a><a id="Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Limitations" title="Permalink"></a></h2><h3 id="No-Complement-Edges"><a class="docs-heading-anchor" href="#No-Complement-Edges">No Complement Edges</a><a id="No-Complement-Edges-1"></a><a class="docs-heading-anchor-permalink" href="#No-Complement-Edges" title="Permalink"></a></h3><p>ZDDs don&#39;t use complement edges:</p><ul><li>All operations must be explicit</li><li>May result in larger diagrams than BDDs for dense sets</li></ul><h3 id="Element-Ordering"><a class="docs-heading-anchor" href="#Element-Ordering">Element Ordering</a><a id="Element-Ordering-1"></a><a class="docs-heading-anchor-permalink" href="#Element-Ordering" title="Permalink"></a></h3><p>Like BDDs, element ordering matters:</p><ul><li>Different orderings can lead to different sizes</li><li>No dynamic reordering yet implemented</li></ul><h3 id="Conversion-Overhead"><a class="docs-heading-anchor" href="#Conversion-Overhead">Conversion Overhead</a><a id="Conversion-Overhead-1"></a><a class="docs-heading-anchor-permalink" href="#Conversion-Overhead" title="Permalink"></a></h3><p>Converting between sets and ZDDs has overhead:</p><ul><li>Use native ZDD operations when possible</li><li>Avoid repeated conversions</li></ul><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../bdds/">BDD Guide</a>: Binary Decision Diagrams</li><li><a href="../adds/">ADD Guide</a>: Algebraic Decision Diagrams</li><li><a href="../../api/#API-Reference">API Reference</a>: Complete API documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../adds/">« Algebraic Decision Diagrams (ADDs)</a><a class="docs-footer-nextpage" href="../utilities/">Utilities »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

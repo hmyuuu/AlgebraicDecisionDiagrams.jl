@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Internals · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Internals · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Internals · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Internals · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/internals/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/internals/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/internals/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../getting_started/">Getting Started</a></li><li><span class="tocitem">User Guide</span><ul><li><a class="tocitem" href="../guide/bdds/">Binary Decision Diagrams (BDDs)</a></li><li><a class="tocitem" href="../guide/adds/">Algebraic Decision Diagrams (ADDs)</a></li><li><a class="tocitem" href="../guide/zdds/">Zero-suppressed Decision Diagrams (ZDDs)</a></li><li><a class="tocitem" href="../guide/utilities/">Utilities</a></li></ul></li><li><a class="tocitem" href="../performance/">Performance</a></li><li><a class="tocitem" href="../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li class="is-active"><a class="tocitem" href>Internals</a><ul class="internal"><li><a class="tocitem" href="#Architecture-Overview"><span>Architecture Overview</span></a></li><li><a class="tocitem" href="#Data-Structures"><span>Data Structures</span></a></li><li><a class="tocitem" href="#Core-Algorithms"><span>Core Algorithms</span></a></li><li><a class="tocitem" href="#Performance-Optimizations"><span>Performance Optimizations</span></a></li><li><a class="tocitem" href="#Memory-Management"><span>Memory Management</span></a></li><li><a class="tocitem" href="#Hash-Functions"><span>Hash Functions</span></a></li><li><a class="tocitem" href="#File-Organization"><span>File Organization</span></a></li><li><a class="tocitem" href="#Testing-Strategy"><span>Testing Strategy</span></a></li><li><a class="tocitem" href="#Future-Improvements"><span>Future Improvements</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Internals</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Internals</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/internals.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Internals"><a class="docs-heading-anchor" href="#Internals">Internals</a><a id="Internals-1"></a><a class="docs-heading-anchor-permalink" href="#Internals" title="Permalink"></a></h1><p>This page describes the internal implementation details of AlgebraicDecisionDiagrams.jl.</p><h2 id="Architecture-Overview"><a class="docs-heading-anchor" href="#Architecture-Overview">Architecture Overview</a><a id="Architecture-Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Architecture-Overview" title="Permalink"></a></h2><p>The implementation follows CUDD&#39;s architecture with three main components:</p><ol><li><strong>Unique Table</strong>: Hash consing for canonical representation</li><li><strong>Computed Table</strong>: Direct-mapped cache for operation memoization</li><li><strong>Node Storage</strong>: Compact node representation with complement edges</li></ol><h2 id="Data-Structures"><a class="docs-heading-anchor" href="#Data-Structures">Data Structures</a><a id="Data-Structures-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Structures" title="Permalink"></a></h2><h3 id="Node-Representation"><a class="docs-heading-anchor" href="#Node-Representation">Node Representation</a><a id="Node-Representation-1"></a><a class="docs-heading-anchor-permalink" href="#Node-Representation" title="Permalink"></a></h3><pre><code class="language-julia hljs">struct DDNode
+    index::UInt32      # Variable index (0 for terminal)
+    then_child::NodeId # High/then child
+    else_child::NodeId # Low/else child
+    value::Float64     # Terminal value (for ADDs)
+end</code></pre><p><strong>Design decisions:</strong></p><ul><li><code>UInt32</code> for index: Supports up to 4 billion variables</li><li><code>NodeId</code> for children: Includes complement bit</li><li><code>Float64</code> for value: Used only for ADD terminals</li><li>Total size: ~32 bytes per node</li></ul><h3 id="Node-ID-with-Complement-Edges"><a class="docs-heading-anchor" href="#Node-ID-with-Complement-Edges">Node ID with Complement Edges</a><a id="Node-ID-with-Complement-Edges-1"></a><a class="docs-heading-anchor-permalink" href="#Node-ID-with-Complement-Edges" title="Permalink"></a></h3><pre><code class="language-julia hljs">struct NodeId
+    id::UInt64
+end</code></pre><p>The <code>id</code> field encodes both the node index and complement bit:</p><ul><li><strong>Bits 1-63</strong>: Node index (shifted left by 1)</li><li><strong>Bit 0 (LSB)</strong>: Complement bit (1 = complemented, 0 = regular)</li></ul><p><strong>Operations:</strong></p><pre><code class="language-julia hljs"># Extract node index
+node_index = node_id.id &gt;&gt; 1
+
+# Check if complemented
+is_complemented = (node_id.id &amp; 1) == 1
+
+# Create complemented node
+complemented = NodeId(node_id.id ⊕ 1)</code></pre><p><strong>Benefits:</strong></p><ul><li>NOT operation is O(1) (just flip LSB)</li><li>Reduces BDD size by ~2x</li><li>No additional memory overhead</li></ul><h3 id="Unique-Table"><a class="docs-heading-anchor" href="#Unique-Table">Unique Table</a><a id="Unique-Table-1"></a><a class="docs-heading-anchor-permalink" href="#Unique-Table" title="Permalink"></a></h3><pre><code class="language-julia hljs">struct UniqueTable
+    slots::Vector{Vector{NodeId}}
+end</code></pre><p>One unique table per variable level:</p><ul><li>Hash-based lookup for canonical nodes</li><li>Collision resolution via chaining</li><li>Ensures unique representation</li></ul><p><strong>Hash function:</strong></p><pre><code class="language-julia hljs">function unique_hash(var_index::Int, then_child::NodeId, else_child::NodeId, table_size::Int)
+    h = UInt64(var_index) * HASH_P1 + then_child.id * HASH_P2 + else_child.id * HASH_P1
+    return Int(((h - 1) % table_size) + 1)
+end</code></pre><h3 id="Computed-Table"><a class="docs-heading-anchor" href="#Computed-Table">Computed Table</a><a id="Computed-Table-1"></a><a class="docs-heading-anchor-permalink" href="#Computed-Table" title="Permalink"></a></h3><pre><code class="language-julia hljs">struct CacheEntry
+    op::UInt64
+    f::NodeId
+    g::NodeId
+    h::NodeId
+    result::NodeId
+end
+
+struct ComputedTable
+    entries::Vector{CacheEntry}
+end</code></pre><p>Direct-mapped cache:</p><ul><li>Fixed-size cache (default: 1M entries)</li><li>Hash-based indexing</li><li>Stores operation results for memoization</li></ul><p><strong>Hash function:</strong></p><pre><code class="language-julia hljs">function cache_hash(op::UInt64, f::NodeId, g::NodeId, h::NodeId, cache_size::Int)
+    hash_val = op * HASH_P1 + f.id * HASH_P2 + g.id * HASH_P1 + h.id * HASH_P2
+    return Int(((hash_val - 1) % cache_size) + 1)
+end</code></pre><p><strong>Operation codes:</strong></p><pre><code class="language-julia hljs">const OP_AND = UInt64(1)
+const OP_OR = UInt64(2)
+const OP_XOR = UInt64(3)
+const OP_ITE = UInt64(4)
+# ... etc</code></pre><h2 id="Core-Algorithms"><a class="docs-heading-anchor" href="#Core-Algorithms">Core Algorithms</a><a id="Core-Algorithms-1"></a><a class="docs-heading-anchor-permalink" href="#Core-Algorithms" title="Permalink"></a></h2><h3 id="ITE-(If-Then-Else)"><a class="docs-heading-anchor" href="#ITE-(If-Then-Else)">ITE (If-Then-Else)</a><a id="ITE-(If-Then-Else)-1"></a><a class="docs-heading-anchor-permalink" href="#ITE-(If-Then-Else)" title="Permalink"></a></h3><p>The fundamental operation for BDDs:</p><pre><code class="language-julia hljs">function bdd_ite(mgr::DDManager, f::NodeId, g::NodeId, h::NodeId) -&gt; NodeId
+    # Terminal cases
+    if f == mgr.one
+        return g
+    end
+    if f == mgr.zero
+        return h
+    end
+    if g == h
+        return g
+    end
+    if g == mgr.one &amp;&amp; h == mgr.zero
+        return f
+    end
+
+    # Check cache
+    cache_idx = cache_hash(OP_ITE, f, g, h, length(mgr.cache.entries))
+    entry = mgr.cache.entries[cache_idx]
+    if entry.op == OP_ITE &amp;&amp; entry.f == f &amp;&amp; entry.g == g &amp;&amp; entry.h == h
+        return entry.result
+    end
+
+    # Find top variable
+    top_var = min(get_var(mgr, f), get_var(mgr, g), get_var(mgr, h))
+
+    # Compute cofactors
+    f_then, f_else = cofactor(mgr, f, top_var)
+    g_then, g_else = cofactor(mgr, g, top_var)
+    h_then, h_else = cofactor(mgr, h, top_var)
+
+    # Recursive calls
+    then_result = bdd_ite(mgr, f_then, g_then, h_then)
+    else_result = bdd_ite(mgr, f_else, g_else, h_else)
+
+    # Reduction rule
+    if then_result == else_result
+        result = then_result
+    else
+        result = unique_lookup(mgr, top_var, then_result, else_result)
+    end
+
+    # Cache result
+    mgr.cache.entries[cache_idx] = CacheEntry(OP_ITE, f, g, h, result)
+
+    return result
+end</code></pre><p><strong>Key points:</strong></p><ul><li>Terminal cases for early termination</li><li>Cache lookup before recursion</li><li>Shannon expansion on top variable</li><li>Reduction rule eliminates redundant nodes</li><li>Result cached for future use</li></ul><h3 id="Unique-Lookup"><a class="docs-heading-anchor" href="#Unique-Lookup">Unique Lookup</a><a id="Unique-Lookup-1"></a><a class="docs-heading-anchor-permalink" href="#Unique-Lookup" title="Permalink"></a></h3><p>Ensures canonical representation:</p><pre><code class="language-julia hljs">function unique_lookup(mgr::DDManager, var_index::Int, then_child::NodeId, else_child::NodeId) -&gt; NodeId
+    # Reduction rule: if both children same, return child
+    if then_child == else_child
+        return then_child
+    end
+
+    # Complement edge normalization (BDDs only)
+    complement = false
+    if is_complemented(else_child)
+        complement = true
+        then_child = NodeId(then_child.id ⊕ 1)
+        else_child = NodeId(else_child.id ⊕ 1)
+    end
+
+    # Hash lookup
+    table = mgr.unique_tables[var_index]
+    h = unique_hash(var_index, then_child, else_child, length(table.slots))
+    slot = table.slots[h]
+
+    # Check existing nodes
+    for node_id in slot
+        node_idx = node_id.id &gt;&gt; 1
+        node = mgr.nodes[node_idx]
+        if node.index == var_index &amp;&amp;
+           node.then_child == then_child &amp;&amp;
+           node.else_child == else_child
+            return complement ? NodeId(node_id.id ⊕ 1) : node_id
+        end
+    end
+
+    # Create new node
+    new_node = DDNode(UInt32(var_index), then_child, else_child, 0.0)
+    push!(mgr.nodes, new_node)
+    new_id = NodeId(UInt64(length(mgr.nodes)) &lt;&lt; 1)
+    push!(slot, new_id)
+
+    return complement ? NodeId(new_id.id ⊕ 1) : new_id
+end</code></pre><p><strong>Key points:</strong></p><ul><li>Reduction rule eliminates redundant nodes</li><li>Complement edge normalization (else-child regular)</li><li>Hash-based lookup for existing nodes</li><li>Creates new node if not found</li></ul><h3 id="ZDD-Reduction-Rule"><a class="docs-heading-anchor" href="#ZDD-Reduction-Rule">ZDD Reduction Rule</a><a id="ZDD-Reduction-Rule-1"></a><a class="docs-heading-anchor-permalink" href="#ZDD-Reduction-Rule" title="Permalink"></a></h3><p>ZDDs use a different reduction rule:</p><pre><code class="language-julia hljs">function zdd_unique_lookup(mgr::DDManager, var_index::Int, then_child::NodeId, else_child::NodeId) -&gt; NodeId
+    # ZDD reduction: if then-child is empty, return else-child
+    if then_child == mgr.zero
+        return else_child
+    end
+
+    # Standard unique lookup
+    # (No complement edge normalization for ZDDs)
+    # ...
+end</code></pre><p><strong>Difference from BDD:</strong></p><ul><li>BDD: Eliminate if <code>then_child == else_child</code></li><li>ZDD: Eliminate if <code>then_child == empty</code></li></ul><p>This makes ZDDs compact for sparse sets.</p><h2 id="Performance-Optimizations"><a class="docs-heading-anchor" href="#Performance-Optimizations">Performance Optimizations</a><a id="Performance-Optimizations-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Optimizations" title="Permalink"></a></h2><h3 id="1.-Inline-Functions"><a class="docs-heading-anchor" href="#1.-Inline-Functions">1. Inline Functions</a><a id="1.-Inline-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Inline-Functions" title="Permalink"></a></h3><p>Critical functions are marked <code>@inline</code>:</p><pre><code class="language-julia hljs">@inline function is_complemented(node_id::NodeId)
+    return (node_id.id &amp; 1) == 1
+end
+
+@inline function get_node_index(node_id::NodeId)
+    return node_id.id &gt;&gt; 1
+end</code></pre><h3 id="2.-Type-Stability"><a class="docs-heading-anchor" href="#2.-Type-Stability">2. Type Stability</a><a id="2.-Type-Stability-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Type-Stability" title="Permalink"></a></h3><p>All functions are type-stable:</p><pre><code class="language-julia hljs"># Good: Type-stable
+function bdd_and(mgr::DDManager, f::NodeId, g::NodeId)::NodeId
+    # ...
+end
+
+# Bad: Not type-stable (would be slower)
+function bdd_and(mgr, f, g)
+    # ...
+end</code></pre><h3 id="3.-Cache-Efficiency"><a class="docs-heading-anchor" href="#3.-Cache-Efficiency">3. Cache Efficiency</a><a id="3.-Cache-Efficiency-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Cache-Efficiency" title="Permalink"></a></h3><p>Direct-mapped cache for O(1) lookup:</p><ul><li>No collision resolution needed</li><li>Cache line friendly</li><li>Predictable performance</li></ul><h3 id="4.-Complement-Edge-Optimization"><a class="docs-heading-anchor" href="#4.-Complement-Edge-Optimization">4. Complement Edge Optimization</a><a id="4.-Complement-Edge-Optimization-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Complement-Edge-Optimization" title="Permalink"></a></h3><p>NOT operation is O(1):</p><pre><code class="language-julia hljs">@inline function bdd_not(mgr::DDManager, f::NodeId)::NodeId
+    return NodeId(f.id ⊕ 1)  # Just flip LSB
+end</code></pre><h3 id="5.-Early-Termination"><a class="docs-heading-anchor" href="#5.-Early-Termination">5. Early Termination</a><a id="5.-Early-Termination-1"></a><a class="docs-heading-anchor-permalink" href="#5.-Early-Termination" title="Permalink"></a></h3><p>Terminal cases checked first:</p><pre><code class="language-julia hljs">function bdd_and(mgr::DDManager, f::NodeId, g::NodeId)::NodeId
+    # Terminal cases (fast path)
+    if f == mgr.zero || g == mgr.zero
+        return mgr.zero
+    end
+    if f == mgr.one
+        return g
+    end
+    if g == mgr.one
+        return f
+    end
+    if f == g
+        return f
+    end
+
+    # General case (slower path)
+    return bdd_ite(mgr, f, g, mgr.zero)
+end</code></pre><h2 id="Memory-Management"><a class="docs-heading-anchor" href="#Memory-Management">Memory Management</a><a id="Memory-Management-1"></a><a class="docs-heading-anchor-permalink" href="#Memory-Management" title="Permalink"></a></h2><h3 id="Reference-Counting"><a class="docs-heading-anchor" href="#Reference-Counting">Reference Counting</a><a id="Reference-Counting-1"></a><a class="docs-heading-anchor-permalink" href="#Reference-Counting" title="Permalink"></a></h3><p>Currently uses simple reference counting:</p><pre><code class="language-julia hljs">struct DDNode
+    # ...
+    ref_count::Int  # Not yet implemented
+end</code></pre><p><strong>Future work:</strong></p><ul><li>Implement reference counting</li><li>Garbage collection for unused nodes</li><li>Memory compaction</li></ul><h3 id="Node-Allocation"><a class="docs-heading-anchor" href="#Node-Allocation">Node Allocation</a><a id="Node-Allocation-1"></a><a class="docs-heading-anchor-permalink" href="#Node-Allocation" title="Permalink"></a></h3><p>Nodes are allocated in a vector:</p><pre><code class="language-julia hljs">mgr.nodes = Vector{DDNode}()
+push!(mgr.nodes, terminal_node)</code></pre><p><strong>Benefits:</strong></p><ul><li>Fast allocation</li><li>Good cache locality</li><li>Simple indexing</li></ul><p><strong>Drawbacks:</strong></p><ul><li>No deallocation (yet)</li><li>Memory grows monotonically</li></ul><h2 id="Hash-Functions"><a class="docs-heading-anchor" href="#Hash-Functions">Hash Functions</a><a id="Hash-Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Hash-Functions" title="Permalink"></a></h2><h3 id="Prime-Numbers"><a class="docs-heading-anchor" href="#Prime-Numbers">Prime Numbers</a><a id="Prime-Numbers-1"></a><a class="docs-heading-anchor-permalink" href="#Prime-Numbers" title="Permalink"></a></h3><pre><code class="language-julia hljs">const HASH_P1 = UInt64(0x9e3779b97f4a7c15)  # Golden ratio
+const HASH_P2 = UInt64(0xbf58476d1ce4e5b9)  # Another large prime</code></pre><p><strong>Properties:</strong></p><ul><li>Good distribution</li><li>Minimal collisions</li><li>Fast computation</li></ul><h3 id="Collision-Resolution"><a class="docs-heading-anchor" href="#Collision-Resolution">Collision Resolution</a><a id="Collision-Resolution-1"></a><a class="docs-heading-anchor-permalink" href="#Collision-Resolution" title="Permalink"></a></h3><p>Unique table uses chaining:</p><pre><code class="language-julia hljs">struct UniqueTable
+    slots::Vector{Vector{NodeId}}  # Each slot is a chain
+end</code></pre><p>Computed table uses direct mapping (no collision resolution):</p><pre><code class="language-julia hljs"># Overwrite on collision
+mgr.cache.entries[cache_idx] = new_entry</code></pre><h2 id="File-Organization"><a class="docs-heading-anchor" href="#File-Organization">File Organization</a><a id="File-Organization-1"></a><a class="docs-heading-anchor-permalink" href="#File-Organization" title="Permalink"></a></h2><pre><code class="nohighlight hljs">src/
+├── AlgebraicDecisionDiagrams.jl  # Main module
+├── types.jl                       # Data structures
+├── unique.jl                      # Hash consing
+├── cache.jl                       # Operation caching
+├── bdd.jl                         # BDD operations
+├── add.jl                         # ADD operations
+├── zdd.jl                         # ZDD operations
+└── utils.jl                       # Utility functions</code></pre><h3 id="Module-Structure"><a class="docs-heading-anchor" href="#Module-Structure">Module Structure</a><a id="Module-Structure-1"></a><a class="docs-heading-anchor-permalink" href="#Module-Structure" title="Permalink"></a></h3><pre><code class="language-julia hljs">module AlgebraicDecisionDiagrams
+
+# Include files in order
+include(&quot;types.jl&quot;)
+include(&quot;unique.jl&quot;)
+include(&quot;cache.jl&quot;)
+include(&quot;bdd.jl&quot;)
+include(&quot;add.jl&quot;)
+include(&quot;zdd.jl&quot;)
+include(&quot;utils.jl&quot;)
+
+# Export public API
+export DDManager, NodeId
+export ith_var, bdd_and, bdd_or, bdd_xor, bdd_not, bdd_ite
+export add_ith_var, add_const, add_plus, add_times, add_min, add_max
+export zdd_singleton, zdd_union, zdd_intersection, zdd_product
+export count_nodes, count_paths, count_minterms
+
+end</code></pre><h2 id="Testing-Strategy"><a class="docs-heading-anchor" href="#Testing-Strategy">Testing Strategy</a><a id="Testing-Strategy-1"></a><a class="docs-heading-anchor-permalink" href="#Testing-Strategy" title="Permalink"></a></h2><h3 id="Unit-Tests"><a class="docs-heading-anchor" href="#Unit-Tests">Unit Tests</a><a id="Unit-Tests-1"></a><a class="docs-heading-anchor-permalink" href="#Unit-Tests" title="Permalink"></a></h3><p>Each operation has dedicated tests:</p><pre><code class="language-julia hljs">@testset &quot;BDD AND&quot; begin
+    mgr = DDManager(3)
+    x1 = ith_var(mgr, 1)
+    x2 = ith_var(mgr, 2)
+
+    # Test basic AND
+    result = bdd_and(mgr, x1, x2)
+    @test result != mgr.zero
+    @test result != mgr.one
+
+    # Test terminal cases
+    @test bdd_and(mgr, x1, mgr.zero) == mgr.zero
+    @test bdd_and(mgr, x1, mgr.one) == x1
+
+    # Test commutativity
+    @test bdd_and(mgr, x1, x2) == bdd_and(mgr, x2, x1)
+end</code></pre><h3 id="Property-Based-Tests"><a class="docs-heading-anchor" href="#Property-Based-Tests">Property-Based Tests</a><a id="Property-Based-Tests-1"></a><a class="docs-heading-anchor-permalink" href="#Property-Based-Tests" title="Permalink"></a></h3><p>Test algebraic properties:</p><pre><code class="language-julia hljs">@testset &quot;Boolean Algebra Laws&quot; begin
+    mgr = DDManager(3)
+    x1, x2, x3 = [ith_var(mgr, i) for i in 1:3]
+
+    # Commutativity
+    @test bdd_and(mgr, x1, x2) == bdd_and(mgr, x2, x1)
+    @test bdd_or(mgr, x1, x2) == bdd_or(mgr, x2, x1)
+
+    # Associativity
+    @test bdd_and(mgr, bdd_and(mgr, x1, x2), x3) ==
+          bdd_and(mgr, x1, bdd_and(mgr, x2, x3))
+
+    # De Morgan&#39;s laws
+    @test bdd_not(mgr, bdd_and(mgr, x1, x2)) ==
+          bdd_or(mgr, bdd_not(mgr, x1), bdd_not(mgr, x2))
+end</code></pre><h2 id="Future-Improvements"><a class="docs-heading-anchor" href="#Future-Improvements">Future Improvements</a><a id="Future-Improvements-1"></a><a class="docs-heading-anchor-permalink" href="#Future-Improvements" title="Permalink"></a></h2><h3 id="1.-Variable-Reordering"><a class="docs-heading-anchor" href="#1.-Variable-Reordering">1. Variable Reordering</a><a id="1.-Variable-Reordering-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Variable-Reordering" title="Permalink"></a></h3><p>Implement SIFT algorithm:</p><ul><li>Swap adjacent variables</li><li>Measure BDD size</li><li>Keep best ordering</li></ul><h3 id="2.-Garbage-Collection"><a class="docs-heading-anchor" href="#2.-Garbage-Collection">2. Garbage Collection</a><a id="2.-Garbage-Collection-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Garbage-Collection" title="Permalink"></a></h3><p>Implement mark-and-sweep:</p><ul><li>Mark reachable nodes</li><li>Sweep unreachable nodes</li><li>Compact node vector</li></ul><h3 id="3.-Multi-threading"><a class="docs-heading-anchor" href="#3.-Multi-threading">3. Multi-threading</a><a id="3.-Multi-threading-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Multi-threading" title="Permalink"></a></h3><p>Thread-safe operations:</p><ul><li>Per-thread caches</li><li>Lock-free unique tables</li><li>Parallel apply operations</li></ul><h3 id="4.-Additional-Optimizations"><a class="docs-heading-anchor" href="#4.-Additional-Optimizations">4. Additional Optimizations</a><a id="4.-Additional-Optimizations-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Additional-Optimizations" title="Permalink"></a></h3><ul><li>SIMD operations</li><li>Custom allocators</li><li>Profile-guided optimization</li></ul><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../api/#API-Reference">API Reference</a>: Complete API documentation</li><li><a href="../performance/#Performance">Performance</a>: Performance characteristics</li><li><a href="../comparison/">Comparison with CUDD</a>: Implementation comparison</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../api/">« API Reference</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

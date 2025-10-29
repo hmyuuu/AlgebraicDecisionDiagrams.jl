@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Algebraic Decision Diagrams (ADDs) · AlgebraicDecisionDiagrams.jl</title><meta name="title" content="Algebraic Decision Diagrams (ADDs) · AlgebraicDecisionDiagrams.jl"/><meta property="og:title" content="Algebraic Decision Diagrams (ADDs) · AlgebraicDecisionDiagrams.jl"/><meta property="twitter:title" content="Algebraic Decision Diagrams (ADDs) · AlgebraicDecisionDiagrams.jl"/><meta name="description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="twitter:description" content="Documentation for AlgebraicDecisionDiagrams.jl."/><meta property="og:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/adds/"/><meta property="twitter:url" content="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/adds/"/><link rel="canonical" href="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/guide/adds/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">AlgebraicDecisionDiagrams.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting_started/">Getting Started</a></li><li><span class="tocitem">User Guide</span><ul><li><a class="tocitem" href="../bdds/">Binary Decision Diagrams (BDDs)</a></li><li class="is-active"><a class="tocitem" href>Algebraic Decision Diagrams (ADDs)</a><ul class="internal"><li><a class="tocitem" href="#What-are-ADDs?"><span>What are ADDs?</span></a></li><li><a class="tocitem" href="#Creating-ADDs"><span>Creating ADDs</span></a></li><li><a class="tocitem" href="#Arithmetic-Operations"><span>Arithmetic Operations</span></a></li><li><a class="tocitem" href="#Min/Max-Operations"><span>Min/Max Operations</span></a></li><li><a class="tocitem" href="#Evaluation"><span>Evaluation</span></a></li><li><a class="tocitem" href="#Converting-Between-BDDs-and-ADDs"><span>Converting Between BDDs and ADDs</span></a></li><li><a class="tocitem" href="#Applications"><span>Applications</span></a></li><li><a class="tocitem" href="#Performance-Tips"><span>Performance Tips</span></a></li><li><a class="tocitem" href="#Limitations"><span>Limitations</span></a></li><li><a class="tocitem" href="#See-Also"><span>See Also</span></a></li></ul></li><li><a class="tocitem" href="../zdds/">Zero-suppressed Decision Diagrams (ZDDs)</a></li><li><a class="tocitem" href="../utilities/">Utilities</a></li></ul></li><li><a class="tocitem" href="../../performance/">Performance</a></li><li><a class="tocitem" href="../../comparison/">Comparison with CUDD</a></li><li><a class="tocitem" href="../../api/">API Reference</a></li><li><a class="tocitem" href="../../internals/">Internals</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">User Guide</a></li><li class="is-active"><a href>Algebraic Decision Diagrams (ADDs)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Algebraic Decision Diagrams (ADDs)</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/blob/main/docs/src/guide/adds.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Algebraic-Decision-Diagrams-(ADDs)"><a class="docs-heading-anchor" href="#Algebraic-Decision-Diagrams-(ADDs)">Algebraic Decision Diagrams (ADDs)</a><a id="Algebraic-Decision-Diagrams-(ADDs)-1"></a><a class="docs-heading-anchor-permalink" href="#Algebraic-Decision-Diagrams-(ADDs)" title="Permalink"></a></h1><p>Algebraic Decision Diagrams (ADDs) extend BDDs to represent functions that map Boolean variables to real numbers. They are useful for probabilistic reasoning, optimization, and numerical computations.</p><h2 id="What-are-ADDs?"><a class="docs-heading-anchor" href="#What-are-ADDs?">What are ADDs?</a><a id="What-are-ADDs?-1"></a><a class="docs-heading-anchor-permalink" href="#What-are-ADDs?" title="Permalink"></a></h2><p>An ADD is similar to a BDD, but:</p><ul><li>Terminal nodes contain real values (not just true/false)</li><li>Represents functions: <code>f: {0,1}ⁿ → ℝ</code></li><li>Supports arithmetic operations (addition, multiplication, min, max)</li><li>No complement edges (unlike BDDs)</li></ul><h2 id="Creating-ADDs"><a class="docs-heading-anchor" href="#Creating-ADDs">Creating ADDs</a><a id="Creating-ADDs-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-ADDs" title="Permalink"></a></h2><h3 id="Variables"><a class="docs-heading-anchor" href="#Variables">Variables</a><a id="Variables-1"></a><a class="docs-heading-anchor-permalink" href="#Variables" title="Permalink"></a></h3><p>ADD variables represent 0-1 indicator functions:</p><pre><code class="language-julia hljs">using AlgebraicDecisionDiagrams
+
+mgr = DDManager(3)
+
+# Create ADD variables (0-1 functions)
+x1 = add_ith_var(mgr, 1)  # 1 if var 1 is true, 0 otherwise
+x2 = add_ith_var(mgr, 2)
+x3 = add_ith_var(mgr, 3)</code></pre><h3 id="Constants"><a class="docs-heading-anchor" href="#Constants">Constants</a><a id="Constants-1"></a><a class="docs-heading-anchor-permalink" href="#Constants" title="Permalink"></a></h3><p>Create constant ADDs:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# Constant values
+c0 = add_const(mgr, 0.0)
+c1 = add_const(mgr, 1.0)
+c5 = add_const(mgr, 5.0)
+c_neg = add_const(mgr, -3.5)</code></pre><h2 id="Arithmetic-Operations"><a class="docs-heading-anchor" href="#Arithmetic-Operations">Arithmetic Operations</a><a id="Arithmetic-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Arithmetic-Operations" title="Permalink"></a></h2><h3 id="Addition"><a class="docs-heading-anchor" href="#Addition">Addition</a><a id="Addition-1"></a><a class="docs-heading-anchor-permalink" href="#Addition" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = x1 + x2
+# Returns: 0 if both false, 1 if one true, 2 if both true
+f = add_plus(mgr, x1, x2)
+
+# With constants: g(x1, x2) = 5 + 3*x1 + 2*x2
+c5 = add_const(mgr, 5.0)
+c3 = add_const(mgr, 3.0)
+c2 = add_const(mgr, 2.0)
+
+g = add_plus(mgr,
+    add_plus(mgr, c5, add_times(mgr, c3, x1)),
+    add_times(mgr, c2, x2))</code></pre><h3 id="Multiplication"><a class="docs-heading-anchor" href="#Multiplication">Multiplication</a><a id="Multiplication-1"></a><a class="docs-heading-anchor-permalink" href="#Multiplication" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = x1 * x2 (AND operation for 0-1 functions)
+f = add_times(mgr, x1, x2)
+
+# Polynomial: g(x1, x2) = 2*x1*x2 + 3*x1 + 4*x2 + 5
+c2 = add_const(mgr, 2.0)
+c3 = add_const(mgr, 3.0)
+c4 = add_const(mgr, 4.0)
+c5 = add_const(mgr, 5.0)
+
+g = add_plus(mgr,
+    add_plus(mgr,
+        add_plus(mgr,
+            add_times(mgr, c2, add_times(mgr, x1, x2)),
+            add_times(mgr, c3, x1)),
+        add_times(mgr, c4, x2)),
+    c5)</code></pre><h3 id="Subtraction"><a class="docs-heading-anchor" href="#Subtraction">Subtraction</a><a id="Subtraction-1"></a><a class="docs-heading-anchor-permalink" href="#Subtraction" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = x1 - x2
+f = add_minus(mgr, x1, x2)
+
+# Can be negative: returns -1 if x1=0, x2=1</code></pre><h3 id="Division"><a class="docs-heading-anchor" href="#Division">Division</a><a id="Division-1"></a><a class="docs-heading-anchor-permalink" href="#Division" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+c2 = add_const(mgr, 2.0)
+
+# f(x1) = x1 / 2
+f = add_divide(mgr, x1, c2)
+
+# Note: Division by zero returns infinity</code></pre><h2 id="Min/Max-Operations"><a class="docs-heading-anchor" href="#Min/Max-Operations">Min/Max Operations</a><a id="Min/Max-Operations-1"></a><a class="docs-heading-anchor-permalink" href="#Min/Max-Operations" title="Permalink"></a></h2><h3 id="Minimum"><a class="docs-heading-anchor" href="#Minimum">Minimum</a><a id="Minimum-1"></a><a class="docs-heading-anchor-permalink" href="#Minimum" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = min(x1, x2)
+f = add_min(mgr, x1, x2)
+
+# With constants: g(x1, x2) = min(5, 3*x1 + 2*x2)
+c5 = add_const(mgr, 5.0)
+c3 = add_const(mgr, 3.0)
+c2 = add_const(mgr, 2.0)
+
+expr = add_plus(mgr, add_times(mgr, c3, x1), add_times(mgr, c2, x2))
+g = add_min(mgr, c5, expr)</code></pre><h3 id="Maximum"><a class="docs-heading-anchor" href="#Maximum">Maximum</a><a id="Maximum-1"></a><a class="docs-heading-anchor-permalink" href="#Maximum" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = max(x1, x2)
+f = add_max(mgr, x1, x2)
+
+# Clamping: g(x) = max(0, min(x, 1))
+c0 = add_const(mgr, 0.0)
+c1 = add_const(mgr, 1.0)
+g = add_max(mgr, c0, add_min(mgr, x1, c1))</code></pre><h2 id="Evaluation"><a class="docs-heading-anchor" href="#Evaluation">Evaluation</a><a id="Evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Evaluation" title="Permalink"></a></h2><p>Evaluate an ADD with specific variable assignments:</p><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+x3 = add_ith_var(mgr, 3)
+
+# f(x1, x2, x3) = 2*x1 + 3*x2 + 4*x3
+c2 = add_const(mgr, 2.0)
+c3 = add_const(mgr, 3.0)
+c4 = add_const(mgr, 4.0)
+
+f = add_plus(mgr,
+    add_plus(mgr,
+        add_times(mgr, c2, x1),
+        add_times(mgr, c3, x2)),
+    add_times(mgr, c4, x3))
+
+# Evaluate with x1=1, x2=1, x3=1
+assignment = Dict(1 =&gt; 1.0, 2 =&gt; 1.0, 3 =&gt; 1.0)
+result = add_eval(mgr, f, assignment)  # 9.0
+
+# Evaluate with x1=1, x2=0, x3=1
+assignment = Dict(1 =&gt; 1.0, 2 =&gt; 0.0, 3 =&gt; 1.0)
+result = add_eval(mgr, f, assignment)  # 6.0
+
+# Evaluate with x1=0, x2=0, x3=0
+assignment = Dict(1 =&gt; 0.0, 2 =&gt; 0.0, 3 =&gt; 0.0)
+result = add_eval(mgr, f, assignment)  # 0.0</code></pre><h2 id="Converting-Between-BDDs-and-ADDs"><a class="docs-heading-anchor" href="#Converting-Between-BDDs-and-ADDs">Converting Between BDDs and ADDs</a><a id="Converting-Between-BDDs-and-ADDs-1"></a><a class="docs-heading-anchor-permalink" href="#Converting-Between-BDDs-and-ADDs" title="Permalink"></a></h2><h3 id="BDD-to-ADD"><a class="docs-heading-anchor" href="#BDD-to-ADD">BDD to ADD</a><a id="BDD-to-ADD-1"></a><a class="docs-heading-anchor-permalink" href="#BDD-to-ADD" title="Permalink"></a></h3><p>Convert a BDD to an ADD (0-1 function):</p><pre><code class="language-julia hljs">mgr = DDManager(2)
+
+# Create BDD
+x1_bdd = ith_var(mgr, 1)
+x2_bdd = ith_var(mgr, 2)
+f_bdd = bdd_and(mgr, x1_bdd, x2_bdd)
+
+# Convert to ADD
+f_add = bdd_to_add(mgr, f_bdd)
+
+# Now can use arithmetic operations
+c2 = add_const(mgr, 2.0)
+g = add_times(mgr, c2, f_add)  # 2 if both true, 0 otherwise</code></pre><h3 id="ADD-to-BDD"><a class="docs-heading-anchor" href="#ADD-to-BDD">ADD to BDD</a><a id="ADD-to-BDD-1"></a><a class="docs-heading-anchor-permalink" href="#ADD-to-BDD" title="Permalink"></a></h3><p>Convert an ADD to a BDD (threshold operation):</p><pre><code class="language-julia hljs">mgr = DDManager(2)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+
+# f(x1, x2) = x1 + x2
+f = add_plus(mgr, x1, x2)
+
+# Convert to BDD: true if f &gt; 0
+f_bdd = add_to_bdd(mgr, f)
+
+# This is equivalent to x1 ∨ x2
+x1_bdd = ith_var(mgr, 1)
+x2_bdd = ith_var(mgr, 2)
+expected = bdd_or(mgr, x1_bdd, x2_bdd)
+@assert f_bdd == expected</code></pre><h2 id="Applications"><a class="docs-heading-anchor" href="#Applications">Applications</a><a id="Applications-1"></a><a class="docs-heading-anchor-permalink" href="#Applications" title="Permalink"></a></h2><h3 id="Probability-Calculations"><a class="docs-heading-anchor" href="#Probability-Calculations">Probability Calculations</a><a id="Probability-Calculations-1"></a><a class="docs-heading-anchor-permalink" href="#Probability-Calculations" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# Independent events with probabilities
+# P(A) = 0.7, P(B) = 0.5, P(C) = 0.3
+p_a = add_const(mgr, 0.7)
+p_b = add_const(mgr, 0.5)
+p_c = add_const(mgr, 0.3)
+
+# Complement probabilities
+p_not_a = add_const(mgr, 0.3)
+p_not_b = add_const(mgr, 0.5)
+p_not_c = add_const(mgr, 0.7)
+
+# Variables
+a = add_ith_var(mgr, 1)
+b = add_ith_var(mgr, 2)
+c = add_ith_var(mgr, 3)
+
+# P(A ∧ B ∧ C) = P(A) * P(B) * P(C)
+# Build probability function
+prob_a = add_plus(mgr,
+    add_times(mgr, a, p_a),
+    add_times(mgr, add_minus(mgr, add_const(mgr, 1.0), a), p_not_a))
+
+prob_b = add_plus(mgr,
+    add_times(mgr, b, p_b),
+    add_times(mgr, add_minus(mgr, add_const(mgr, 1.0), b), p_not_b))
+
+prob_c = add_plus(mgr,
+    add_times(mgr, c, p_c),
+    add_times(mgr, add_minus(mgr, add_const(mgr, 1.0), c), p_not_c))
+
+# Joint probability
+joint = add_times(mgr, add_times(mgr, prob_a, prob_b), prob_c)
+
+# Evaluate: P(A=true, B=true, C=true)
+assignment = Dict(1 =&gt; 1.0, 2 =&gt; 1.0, 3 =&gt; 1.0)
+p_all_true = add_eval(mgr, joint, assignment)  # 0.105</code></pre><h3 id="Weighted-Counting"><a class="docs-heading-anchor" href="#Weighted-Counting">Weighted Counting</a><a id="Weighted-Counting-1"></a><a class="docs-heading-anchor-permalink" href="#Weighted-Counting" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+x3 = add_ith_var(mgr, 3)
+
+# Weights for each variable
+w1 = add_const(mgr, 2.0)
+w2 = add_const(mgr, 3.0)
+w3 = add_const(mgr, 5.0)
+
+# Total weight: 2*x1 + 3*x2 + 5*x3
+total_weight = add_plus(mgr,
+    add_plus(mgr,
+        add_times(mgr, w1, x1),
+        add_times(mgr, w2, x2)),
+    add_times(mgr, w3, x3))
+
+# Constraint: at least two variables must be true
+x1_bdd = ith_var(mgr, 1)
+x2_bdd = ith_var(mgr, 2)
+x3_bdd = ith_var(mgr, 3)
+
+at_least_two = bdd_or(mgr,
+    bdd_or(mgr,
+        bdd_and(mgr, x1_bdd, x2_bdd),
+        bdd_and(mgr, x1_bdd, x3_bdd)),
+    bdd_and(mgr, x2_bdd, x3_bdd))
+
+# Convert constraint to ADD
+constraint_add = bdd_to_add(mgr, at_least_two)
+
+# Apply constraint: weight if constraint satisfied, 0 otherwise
+constrained_weight = add_times(mgr, total_weight, constraint_add)
+
+# Find maximum weight satisfying constraint
+# (Would need to enumerate all assignments)</code></pre><h3 id="Optimization"><a class="docs-heading-anchor" href="#Optimization">Optimization</a><a id="Optimization-1"></a><a class="docs-heading-anchor-permalink" href="#Optimization" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+x3 = add_ith_var(mgr, 3)
+
+# Objective function: maximize 5*x1 + 3*x2 + 2*x3
+c5 = add_const(mgr, 5.0)
+c3 = add_const(mgr, 3.0)
+c2 = add_const(mgr, 2.0)
+
+objective = add_plus(mgr,
+    add_plus(mgr,
+        add_times(mgr, c5, x1),
+        add_times(mgr, c3, x2)),
+    add_times(mgr, c2, x3))
+
+# Constraint: x1 + x2 + x3 &lt;= 2
+sum_vars = add_plus(mgr, add_plus(mgr, x1, x2), x3)
+c2_const = add_const(mgr, 2.0)
+
+# Check all assignments to find maximum
+max_value = -Inf
+best_assignment = nothing
+
+for x1_val in [0.0, 1.0]
+    for x2_val in [0.0, 1.0]
+        for x3_val in [0.0, 1.0]
+            assignment = Dict(1 =&gt; x1_val, 2 =&gt; x2_val, 3 =&gt; x3_val)
+
+            # Check constraint
+            sum_val = add_eval(mgr, sum_vars, assignment)
+            if sum_val &lt;= 2.0
+                # Evaluate objective
+                obj_val = add_eval(mgr, objective, assignment)
+                if obj_val &gt; max_value
+                    max_value = obj_val
+                    best_assignment = assignment
+                end
+            end
+        end
+    end
+end
+
+println(&quot;Maximum value: &quot;, max_value)  # 10.0
+println(&quot;Best assignment: &quot;, best_assignment)  # x1=1, x2=1, x3=0</code></pre><h2 id="Performance-Tips"><a class="docs-heading-anchor" href="#Performance-Tips">Performance Tips</a><a id="Performance-Tips-1"></a><a class="docs-heading-anchor-permalink" href="#Performance-Tips" title="Permalink"></a></h2><h3 id="1.-Use-Constants-Efficiently"><a class="docs-heading-anchor" href="#1.-Use-Constants-Efficiently">1. Use Constants Efficiently</a><a id="1.-Use-Constants-Efficiently-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Use-Constants-Efficiently" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(10)
+
+# Good: Create constant once
+c2 = add_const(mgr, 2.0)
+results = [add_times(mgr, c2, add_ith_var(mgr, i)) for i in 1:10]
+
+# Bad: Create constant repeatedly
+results = [add_times(mgr, add_const(mgr, 2.0), add_ith_var(mgr, i)) for i in 1:10]</code></pre><h3 id="2.-Build-Incrementally"><a class="docs-heading-anchor" href="#2.-Build-Incrementally">2. Build Incrementally</a><a id="2.-Build-Incrementally-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Build-Incrementally" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(5)
+vars = [add_ith_var(mgr, i) for i in 1:5]
+
+# Good: Build incrementally
+result = vars[1]
+for i in 2:5
+    result = add_plus(mgr, result, vars[i])
+end
+
+# Also good: Use reduce
+result = reduce((acc, v) -&gt; add_plus(mgr, acc, v), vars)</code></pre><h3 id="3.-Avoid-Unnecessary-Conversions"><a class="docs-heading-anchor" href="#3.-Avoid-Unnecessary-Conversions">3. Avoid Unnecessary Conversions</a><a id="3.-Avoid-Unnecessary-Conversions-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Avoid-Unnecessary-Conversions" title="Permalink"></a></h3><pre><code class="language-julia hljs">mgr = DDManager(3)
+
+# Good: Work in ADD domain
+x1 = add_ith_var(mgr, 1)
+x2 = add_ith_var(mgr, 2)
+result = add_plus(mgr, x1, x2)
+
+# Bad: Unnecessary conversions
+x1_bdd = ith_var(mgr, 1)
+x1_add = bdd_to_add(mgr, x1_bdd)  # Unnecessary</code></pre><h2 id="Limitations"><a class="docs-heading-anchor" href="#Limitations">Limitations</a><a id="Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Limitations" title="Permalink"></a></h2><h3 id="No-Complement-Edges"><a class="docs-heading-anchor" href="#No-Complement-Edges">No Complement Edges</a><a id="No-Complement-Edges-1"></a><a class="docs-heading-anchor-permalink" href="#No-Complement-Edges" title="Permalink"></a></h3><p>Unlike BDDs, ADDs don&#39;t use complement edges:</p><ul><li>Negation requires explicit computation</li><li>May result in larger diagrams</li><li>But allows arbitrary real values</li></ul><h3 id="Numerical-Precision"><a class="docs-heading-anchor" href="#Numerical-Precision">Numerical Precision</a><a id="Numerical-Precision-1"></a><a class="docs-heading-anchor-permalink" href="#Numerical-Precision" title="Permalink"></a></h3><p>ADDs use floating-point arithmetic:</p><ul><li>Subject to rounding errors</li><li>Equality comparisons may be inexact</li><li>Consider using tolerance for comparisons</li></ul><pre><code class="language-julia hljs">mgr = DDManager(2)
+x = add_ith_var(mgr, 1)
+
+# May not be exactly equal due to floating point
+c1 = add_const(mgr, 0.1)
+c2 = add_const(mgr, 0.2)
+c3 = add_const(mgr, 0.3)
+
+sum = add_plus(mgr, c1, c2)
+# sum might not exactly equal c3 due to floating point</code></pre><h2 id="See-Also"><a class="docs-heading-anchor" href="#See-Also">See Also</a><a id="See-Also-1"></a><a class="docs-heading-anchor-permalink" href="#See-Also" title="Permalink"></a></h2><ul><li><a href="../bdds/">BDD Guide</a>: Binary Decision Diagrams</li><li><a href="../zdds/">ZDD Guide</a>: Zero-suppressed Decision Diagrams</li><li><a href="../../api/#API-Reference">API Reference</a>: Complete API documentation</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../bdds/">« Binary Decision Diagrams (BDDs)</a><a class="docs-footer-nextpage" href="../zdds/">Zero-suppressed Decision Diagrams (ZDDs) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.15.0 on <span class="colophon-date" title="Wednesday 29 October 2025 16:28">Wednesday 29 October 2025</span>. Using Julia version 1.12.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
