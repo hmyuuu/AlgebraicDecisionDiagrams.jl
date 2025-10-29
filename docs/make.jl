@@ -5,13 +5,15 @@ push!(LOAD_PATH, joinpath(@__DIR__, ".."))
 using AlgebraicDecisionDiagrams
 
 makedocs(
+    modules=[AlgebraicDecisionDiagrams],
+    authors="Huai-Ming Yu <hmyuuus@gmail.com>",
     sitename="AlgebraicDecisionDiagrams.jl",
     format=Documenter.HTML(
-        prettyurls=get(ENV, "CI", nothing) == "true",
         canonical="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl",
+        prettyurls=get(ENV, "CI", nothing) == "true",
+        edit_link="main",
         assets=String[],
     ),
-    modules=[AlgebraicDecisionDiagrams],
     pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
