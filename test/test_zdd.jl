@@ -84,7 +84,7 @@
         s1 = zdd_singleton(mgr, 1)
         s2 = zdd_singleton(mgr, 2)
         s12_then = zdd_singleton(mgr, 2)
-        s12 = zdd_unique_lookup(mgr, 1, s12_then, mgr.zero)
+        s12 = AlgebraicDecisionDiagrams.zdd_unique_lookup(mgr, 1, s12_then, mgr.zero)
 
         f = zdd_union(mgr, zdd_union(mgr, s1, s2), s12)
 
