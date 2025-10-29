@@ -63,12 +63,15 @@ Count the number of satisfying assignments (minterms) for a BDD.
 """
 function count_minterms(mgr::DDManager, f::NodeId, nvars::Int)
     cache = Dict{NodeId, Float64}()
-    return count_minterms_rec(mgr, f, nvars, cache)
+    return count_minterms_rec(mgr, f, nvars, nvars, cache)
 end
 
-function count_minterms_rec(mgr::DDManager, f::NodeId, nvars::Int, cache::Dict{NodeId, Float64})
-    if haskey(cache, f)
-        return cache[f]
+function count_minterms_rec(mgr::DDManager, f::NodeId, nvars::Int, total_vars::Int, cache::Dict{NodeId, Float64})
+    f_reg = regular(f)
+
+    if haskey(cache, f_reg)
+        result = cache[f_reg]
+        return is_complemented(f) ? 2.0^nvars - result : result
     end
 
     if f == mgr.zero
@@ -80,20 +83,24 @@ function count_minterms_rec(mgr::DDManager, f::NodeId, nvars::Int, cache::Dict{N
 
     node = get_node(mgr, f)
     if is_terminal(node)
-        return node.value != 0.0 ? 2.0^nvars : 0.0
+        val = is_complemented(f) ? -node.value : node.value
+        return val != 0.0 ? 2.0^nvars : 0.0
     end
 
     level = mgr.perm[node.index]
-    vars_below = nvars - level
 
     t = then_child(mgr, f)
     e = else_child(mgr, f)
 
-    count_t = count_minterms_rec(mgr, t, vars_below - 1, cache)
-    count_e = count_minterms_rec(mgr, e, vars_below - 1, cache)
+    # Number of variables below this node's level (not including this variable)
+    vars_below = total_vars - level
+
+    # Recurse with remaining variables below this level
+    count_t = count_minterms_rec(mgr, t, vars_below, total_vars, cache)
+    count_e = count_minterms_rec(mgr, e, vars_below, total_vars, cache)
 
     result = count_t + count_e
-    cache[f] = result
+    cache[f_reg] = result
 
     return result
 end

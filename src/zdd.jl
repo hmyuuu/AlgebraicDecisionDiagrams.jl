@@ -100,16 +100,18 @@ function zdd_union(mgr::DDManager, f::NodeId, g::NodeId)
     g_level = node_level(mgr, g)
 
     if f_level < g_level
-        # f has higher priority variable
+        # f has higher priority variable (appears first in ordering)
+        # g doesn't have this variable, so all sets in g go to else-branch
         node_f = get_node(mgr, f)
-        t = zdd_union(mgr, node_f.then_child, g)
-        e = node_f.else_child
+        t = node_f.then_child
+        e = zdd_union(mgr, node_f.else_child, g)
         result = zdd_unique_lookup(mgr, Int(node_f.index), t, e)
     elseif f_level > g_level
-        # g has higher priority variable
+        # g has higher priority variable (appears first in ordering)
+        # f doesn't have this variable, so all sets in f go to else-branch
         node_g = get_node(mgr, g)
-        t = zdd_union(mgr, f, node_g.then_child)
-        e = node_g.else_child
+        t = node_g.then_child
+        e = zdd_union(mgr, f, node_g.else_child)
         result = zdd_unique_lookup(mgr, Int(node_g.index), t, e)
     else
         # Same variable
@@ -156,19 +158,16 @@ function zdd_intersection(mgr::DDManager, f::NodeId, g::NodeId)
     g_level = node_level(mgr, g)
 
     if f_level < g_level
-        # f has higher priority variable
+        # f has higher priority variable, g doesn't have it
+        # For intersection, we only keep sets where both have the element
         node_f = get_node(mgr, f)
-        t = zdd_intersection(mgr, node_f.then_child, g)
-        e = zdd_intersection(mgr, node_f.else_child, g)
-        result = zdd_unique_lookup(mgr, Int(node_f.index), t, e)
+        result = zdd_intersection(mgr, node_f.else_child, g)
     elseif f_level > g_level
-        # g has higher priority variable
+        # g has higher priority variable, f doesn't have it
         node_g = get_node(mgr, g)
-        t = zdd_intersection(mgr, f, node_g.then_child)
-        e = zdd_intersection(mgr, f, node_g.else_child)
-        result = zdd_unique_lookup(mgr, Int(node_g.index), t, e)
+        result = zdd_intersection(mgr, f, node_g.else_child)
     else
-        # Same variable
+        # Same variable - both must have it or both must not have it
         node_f = get_node(mgr, f)
         node_g = get_node(mgr, g)
         t = zdd_intersection(mgr, node_f.then_child, node_g.then_child)
@@ -243,7 +242,10 @@ Return the subset of f where var is present (positive cofactor).
 function zdd_subset1(mgr::DDManager, f::NodeId, var::Int)
     zdd_zero = zdd_empty(mgr)
     zdd_one = zdd_base(mgr)
-    if f == zdd_zero || f == zdd_one
+    if f == zdd_zero
+        return zdd_zero
+    end
+    if f == zdd_one
         return zdd_zero
     end
 
@@ -253,12 +255,16 @@ function zdd_subset1(mgr::DDManager, f::NodeId, var::Int)
     end
 
     if node.index == var
+        # Return sets that contain var (then branch)
         return node.then_child
     elseif mgr.perm[node.index] < mgr.perm[var]
+        # Current variable is higher priority than var
+        # Recursively process both branches
         t = zdd_subset1(mgr, node.then_child, var)
         e = zdd_subset1(mgr, node.else_child, var)
         return zdd_unique_lookup(mgr, Int(node.index), t, e)
     else
+        # var is higher priority than current node, so var is not in any set
         return zdd_zero
     end
 end
@@ -271,8 +277,11 @@ Return the subset of f where var is absent (negative cofactor).
 function zdd_subset0(mgr::DDManager, f::NodeId, var::Int)
     zdd_zero = zdd_empty(mgr)
     zdd_one = zdd_base(mgr)
-    if f == zdd_zero || f == zdd_one
-        return f
+    if f == zdd_zero
+        return zdd_zero
+    end
+    if f == zdd_one
+        return zdd_one
     end
 
     node = get_node(mgr, f)
@@ -281,12 +290,16 @@ function zdd_subset0(mgr::DDManager, f::NodeId, var::Int)
     end
 
     if node.index == var
+        # Return sets that don't contain var (else branch)
         return node.else_child
     elseif mgr.perm[node.index] < mgr.perm[var]
+        # Current variable is higher priority than var
+        # Recursively process both branches
         t = zdd_subset0(mgr, node.then_child, var)
         e = zdd_subset0(mgr, node.else_child, var)
         return zdd_unique_lookup(mgr, Int(node.index), t, e)
     else
+        # var is higher priority than current node, so var is not in any set
         return f
     end
 end
@@ -374,8 +387,11 @@ function zdd_from_sets(mgr::DDManager, sets::Vector{Vector{Int}})
 
     for set in sets
         # Create ZDD for this single set
+        # Sort in ascending order and build from highest to lowest variable
+        sorted_set = sort(set)
         set_zdd = zdd_one
-        for var in sort(set, rev=true)  # Process in reverse order
+        for i in length(sorted_set):-1:1
+            var = sorted_set[i]
             set_zdd = zdd_unique_lookup(mgr, var, set_zdd, zdd_zero)
         end
 
