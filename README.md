@@ -1,5 +1,11 @@
 # AlgebraicDecisionDiagrams.jl
 
+[![CI](https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/hmyuuu/AlgebraicDecisionDiagrams.jl/actions/workflows/ci.yml)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl/dev/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Julia Version](https://img.shields.io/badge/julia-v1.0+-blue.svg)](https://julialang.org/)
+
 > **Note**: This project is under active development.
 
 A Julia implementation of Binary Decision Diagrams (BDDs) and Algebraic Decision Diagrams (ADDs), inspired by the CUDD library.
