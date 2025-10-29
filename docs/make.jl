@@ -5,14 +5,14 @@ push!(LOAD_PATH, joinpath(@__DIR__, ".."))
 using AlgebraicDecisionDiagrams
 
 makedocs(
-    sitename = "AlgebraicDecisionDiagrams.jl",
-    format = Documenter.HTML(
-        prettyurls = get(ENV, "CI", nothing) == "true",
-        canonical = "https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl",
-        assets = String[],
+    sitename="AlgebraicDecisionDiagrams.jl",
+    format=Documenter.HTML(
+        prettyurls=get(ENV, "CI", nothing) == "true",
+        canonical="https://hmyuuu.github.io/AlgebraicDecisionDiagrams.jl",
+        assets=String[],
     ),
-    modules = [AlgebraicDecisionDiagrams],
-    pages = [
+    modules=[AlgebraicDecisionDiagrams],
+    pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
         "User Guide" => [
@@ -26,10 +26,10 @@ makedocs(
         "API Reference" => "api.md",
         "Internals" => "internals.md",
     ],
-    checkdocs = :exports,
+    checkdocs=:exports,
 )
 
 deploydocs(
-    repo = "github.com/hmyuuu/AlgebraicDecisionDiagrams.jl.git",
-    devbranch = "main",
+    repo="github.com/hmyuuu/AlgebraicDecisionDiagrams.jl",
+    devbranch="main",
 )
