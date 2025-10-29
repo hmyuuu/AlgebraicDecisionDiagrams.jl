@@ -27,7 +27,8 @@ Implements ZDD reduction rules:
 function zdd_unique_lookup(mgr::DDManager, var_index::Int, then_child::NodeId, else_child::NodeId)
     # ZDD reduction rule: if then-child is empty, return else-child
     # This is the key difference from BDDs!
-    if then_child == mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    if then_child == zdd_zero
         return else_child
     end
 
@@ -62,7 +63,7 @@ Create a ZDD representing the set containing only the singleton {var}.
 """
 function zdd_singleton(mgr::DDManager, var::Int)
     @assert 1 <= var <= mgr.num_vars "Variable index out of range"
-    return zdd_unique_lookup(mgr, var, mgr.one, mgr.zero)
+    return zdd_unique_lookup(mgr, var, zdd_base(mgr), zdd_empty(mgr))
 end
 
 """
@@ -72,10 +73,11 @@ Compute the union of two ZDD sets: f ∪ g
 """
 function zdd_union(mgr::DDManager, f::NodeId, g::NodeId)
     # Terminal cases
-    if f == mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    if f == zdd_zero
         return g
     end
-    if g == mgr.zero
+    if g == zdd_zero
         return f
     end
     if f == g
@@ -130,8 +132,9 @@ Compute the intersection of two ZDD sets: f ∩ g
 """
 function zdd_intersection(mgr::DDManager, f::NodeId, g::NodeId)
     # Terminal cases
-    if f == mgr.zero || g == mgr.zero
-        return mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    if f == zdd_zero || g == zdd_zero
+        return zdd_zero
     end
     if f == g
         return f
@@ -185,14 +188,15 @@ Compute the set difference: f \\ g (elements in f but not in g)
 """
 function zdd_difference(mgr::DDManager, f::NodeId, g::NodeId)
     # Terminal cases
-    if f == mgr.zero
-        return mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    if f == zdd_zero
+        return zdd_zero
     end
-    if g == mgr.zero
+    if g == zdd_zero
         return f
     end
     if f == g
-        return mgr.zero
+        return zdd_zero
     end
 
     # Check cache
@@ -237,13 +241,15 @@ end
 Return the subset of f where var is present (positive cofactor).
 """
 function zdd_subset1(mgr::DDManager, f::NodeId, var::Int)
-    if f == mgr.zero || f == mgr.one
-        return mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    if f == zdd_zero || f == zdd_one
+        return zdd_zero
     end
 
     node = get_node(mgr, f)
     if is_terminal(node)
-        return mgr.zero
+        return zdd_zero
     end
 
     if node.index == var
@@ -253,7 +259,7 @@ function zdd_subset1(mgr::DDManager, f::NodeId, var::Int)
         e = zdd_subset1(mgr, node.else_child, var)
         return zdd_unique_lookup(mgr, Int(node.index), t, e)
     else
-        return mgr.zero
+        return zdd_zero
     end
 end
 
@@ -263,7 +269,9 @@ end
 Return the subset of f where var is absent (negative cofactor).
 """
 function zdd_subset0(mgr::DDManager, f::NodeId, var::Int)
-    if f == mgr.zero || f == mgr.one
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    if f == zdd_zero || f == zdd_one
         return f
     end
 
@@ -289,10 +297,12 @@ end
 Change operation: add var to sets not containing it, remove from sets containing it.
 """
 function zdd_change(mgr::DDManager, f::NodeId, var::Int)
-    if f == mgr.zero
-        return mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    if f == zdd_zero
+        return zdd_zero
     end
-    if f == mgr.one
+    if f == zdd_one
         return zdd_singleton(mgr, var)
     end
 
@@ -310,7 +320,7 @@ function zdd_change(mgr::DDManager, f::NodeId, var::Int)
         return zdd_unique_lookup(mgr, Int(node.index), t, e)
     else
         # var is above this node
-        return zdd_unique_lookup(mgr, var, f, mgr.zero)
+        return zdd_unique_lookup(mgr, var, f, zdd_zero)
     end
 end
 
@@ -329,10 +339,12 @@ function zdd_count_rec(mgr::DDManager, f::NodeId, cache::Dict{NodeId, BigInt})
         return cache[f]
     end
 
-    if f == mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    if f == zdd_zero
         return BigInt(0)
     end
-    if f == mgr.one
+    if f == zdd_one
         return BigInt(1)
     end
 
@@ -356,13 +368,15 @@ Create a ZDD from a collection of sets.
 Each set is represented as a vector of variable indices.
 """
 function zdd_from_sets(mgr::DDManager, sets::Vector{Vector{Int}})
-    result = mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    result = zdd_zero
 
     for set in sets
         # Create ZDD for this single set
-        set_zdd = mgr.one
+        set_zdd = zdd_one
         for var in sort(set, rev=true)  # Process in reverse order
-            set_zdd = zdd_unique_lookup(mgr, var, set_zdd, mgr.zero)
+            set_zdd = zdd_unique_lookup(mgr, var, set_zdd, zdd_zero)
         end
 
         # Union with result
@@ -387,11 +401,13 @@ end
 
 function zdd_to_sets_rec(mgr::DDManager, f::NodeId, current_set::Vector{Int},
                          sets::Vector{Vector{Int}})
-    if f == mgr.zero
+    zdd_zero = zdd_empty(mgr)
+    zdd_one = zdd_base(mgr)
+    if f == zdd_zero
         return
     end
 
-    if f == mgr.one
+    if f == zdd_one
         push!(sets, copy(current_set))
         return
     end

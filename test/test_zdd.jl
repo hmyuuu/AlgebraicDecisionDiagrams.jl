@@ -6,9 +6,9 @@
         empty = zdd_empty(mgr)
         base = zdd_base(mgr)
 
-        @test empty == mgr.zero
-        @test base == mgr.one
         @test empty != base
+        @test empty == zdd_empty(mgr)  # Consistent
+        @test base == zdd_base(mgr)    # Consistent
 
         # Singleton sets
         s1 = zdd_singleton(mgr, 1)

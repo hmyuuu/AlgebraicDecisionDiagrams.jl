@@ -177,7 +177,13 @@ function bdd_or(mgr::DDManager, f::NodeId, g::NodeId)
         return mgr.one
     end
 
-    # Normalize
+    # Normalize: if both are complemented, use De Morgan's law
+    # ¬f ∨ ¬g = ¬(f ∧ g)
+    if is_complemented(f) && is_complemented(g)
+        return complement(bdd_and(mgr, complement(f), complement(g)))
+    end
+
+    # Normalize: ensure f <= g for commutativity
     if f > g
         f, g = g, f
     end
@@ -223,6 +229,12 @@ function bdd_xor(mgr::DDManager, f::NodeId, g::NodeId)
     end
     if g == mgr.zero
         return f
+    end
+    if f == mgr.one
+        return complement(g)
+    end
+    if g == mgr.one
+        return complement(f)
     end
     if f == g
         return mgr.zero

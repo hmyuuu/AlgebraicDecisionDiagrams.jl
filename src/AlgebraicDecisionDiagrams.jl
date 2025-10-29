@@ -19,6 +19,7 @@ export zdd_empty, zdd_base, zdd_singleton
 export zdd_union, zdd_intersection, zdd_difference
 export zdd_subset0, zdd_subset1, zdd_change
 export zdd_count, zdd_from_sets, zdd_to_sets
+export zdd_unique_lookup
 
 # Export utility functions
 export count_nodes, count_paths, count_minterms
